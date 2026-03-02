@@ -1,277 +1,93 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - Dinas Perikanan Bolmut</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+@section('title', 'Dashboard')
+@section('page-title', 'Dashboard')
+
+@push('head')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#2563eb",
-                        "primary-light": "#dbeafe",
-                        secondary: "#8592a3",
-                        success: "#71dd37",
-                        info: "#03c3ec",
-                        warning: "#ffab00",
-                        danger: "#ff3e1d",
-                        dark: "#233446",
-                        body: "#f5f5f9",
-                        card: "#ffffff",
-                        text: "#566a7f",
-                        heading: "#697a8d",
-                    },
-                    fontFamily: {
-                        sans: ["Public Sans", "sans-serif"]
-                    },
-                    boxShadow: {
-                        card: "0 2px 6px 0 rgba(67,89,113,0.12)"
-                    },
-                },
-            },
-        };
-    </script>
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap");
+@endpush
 
-        body {
-            font-family: "Public Sans", sans-serif;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #d9dee3;
-            border-radius: 10px;
-        }
-    </style>
-</head>
-
-<body class="bg-body text-text" x-data="{ sidebarOpen: false }">
-    <div class="flex h-screen overflow-hidden">
-
-        {{-- Overlay mobile --}}
-        <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity
-            class="fixed inset-0 z-20 bg-slate-900 bg-opacity-50 lg:hidden"></div>
-
-        {{-- Sidebar --}}
-        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-            class="fixed inset-y-0 left-0 z-30 w-64 bg-card shadow-card transform transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-0">
-
-            {{-- Logo --}}
-            <div class="flex items-center justify-center h-16 px-6 mt-2 mb-4">
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center gap-2 text-xl font-bold text-heading tracking-tight">
-                    <span class="text-primary text-3xl"><i class="bx bx-water"></i></span>
-                    <span>Perikanan<span class="text-primary">Bolmut</span></span>
-                </a>
+@section('content')
+    {{-- Welcome Banner --}}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <div class="col-span-1 lg:col-span-2 bg-card rounded-xl shadow-card p-6 relative overflow-hidden">
+            <div class="absolute right-0 top-0 h-full w-48 opacity-10">
+                <i class="bx bx-water text-primary" style="font-size: 12rem; line-height:1"></i>
             </div>
+            <p class="text-secondary text-sm font-semibold mb-1">Selamat Datang,</p>
+            <h4 class="text-heading font-bold text-2xl mb-1">{{ Auth::user()->name }} 👋</h4>
+            <p class="text-secondary text-sm mb-4">Berikut ringkasan data perikanan budidaya Kabupaten Bolmut tahun
+                {{ $tahun }}.</p>
+            <a href="{{ route('publikasi-data.index') }}"
+                class="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-primary/90 transition">
+                <i class="bx bx-bar-chart-alt-2"></i> Lihat Publikasi Data
+            </a>
+        </div>
 
-            <nav class="px-4 space-y-1 overflow-y-auto h-[calc(100vh-180px)]">
-                <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-4">Utama</p>
-
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center gap-3 px-4 py-3 bg-primary text-white rounded-lg shadow-md shadow-primary/30 transition-all">
-                    <i class="bx bx-home-circle text-xl"></i>
-                    <span class="font-medium">Dashboard</span>
-                </a>
-
-                <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Data</p>
-
-                <a href="{{ route('admin.publikasi-data.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 text-text hover:bg-primary-light hover:text-primary rounded-lg transition-colors">
-                    <i class="bx bx-bar-chart-alt-2 text-xl"></i>
-                    <span class="font-medium">Publikasi Data</span>
-                </a>
-
-                <a href="{{ route('announcements.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 text-text hover:bg-primary-light hover:text-primary rounded-lg transition-colors">
-                    <i class="bx bxs-megaphone text-xl"></i>
-                    <span class="font-medium">Pengumuman</span>
-                </a>
-            </nav>
-        </aside>
-
-        {{-- Main --}}
-        <div class="flex flex-col flex-1 h-full overflow-hidden relative">
-
-            {{-- Header --}}
-            <header
-                class="flex items-center justify-between h-16 px-6 bg-card/80 backdrop-blur-md m-4 rounded-xl shadow-card sticky top-0 z-10">
-                <div class="flex items-center gap-4">
-                    <button @click="sidebarOpen = !sidebarOpen" class="text-heading lg:hidden focus:outline-none">
-                        <i class="bx bx-menu text-2xl"></i>
-                    </button>
-                    <div class="hidden md:flex items-center text-secondary">
-                        <i class="bx bx-search text-xl mr-2"></i>
-                        <input type="text" placeholder="Cari data..."
-                            class="bg-transparent border-none focus:ring-0 text-sm w-64 text-heading placeholder-secondary" />
-                    </div>
+        {{-- Stat Cards --}}
+        <div class="grid grid-cols-1 gap-4">
+            <div class="bg-card p-4 rounded-xl shadow-card flex flex-col justify-between">
+                <div class="bg-primary/10 text-primary w-10 h-10 rounded-lg flex items-center justify-center mb-2">
+                    <i class="bx bx-trending-up text-xl"></i>
                 </div>
-                <div class="flex items-center gap-4">
-                    <span class="text-sm text-secondary hidden sm:block">Tahun: <strong
-                            class="text-heading">{{ $tahun }}</strong></span>
-                    <a href="#" class="text-heading hover:text-primary transition"><i
-                            class="bx bx-bell text-xl"></i></a>
-
-                    {{-- Avatar dengan dropdown hover --}}
-                    <div class="relative group">
-                        <div
-                            class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold cursor-pointer select-none">
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                        </div>
-
-                        {{-- Dropdown --}}
-                        <div
-                            class="absolute right-0 top-12 w-56 bg-card rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                            {{-- Panah kecil --}}
-                            <div
-                                class="absolute -top-1.5 right-3 w-3 h-3 bg-card border-l border-t border-gray-100 rotate-45">
-                            </div>
-
-                            {{-- Info User --}}
-                            <div class="px-4 py-3 border-b border-gray-100">
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold shrink-0">
-                                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                                    </div>
-                                    <div class="min-w-0">
-                                        <p class="text-sm font-semibold text-heading truncate">{{ Auth::user()->name }}
-                                        </p>
-                                        <p class="text-xs text-secondary truncate">{{ Auth::user()->email }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- Menu --}}
-                            <div class="p-2">
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit"
-                                        class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-danger hover:bg-danger/10 text-sm transition">
-                                        <i class="bx bx-log-out text-lg"></i>
-                                        Keluar
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                <span class="text-secondary text-sm font-semibold mb-1">Total Produksi</span>
+                <h3 class="text-heading text-xl font-bold">{{ number_format($totalProduksi, 2, ',', '.') }}
+                    <span class="text-sm font-normal">Ton</span>
+                </h3>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-card p-4 rounded-xl shadow-card">
+                    <div class="bg-info/10 text-info w-10 h-10 rounded-lg flex items-center justify-center mb-2">
+                        <i class="bx bx-category text-xl"></i>
                     </div>
+                    <span class="text-secondary text-xs font-semibold">Komoditas</span>
+                    <h3 class="text-heading text-xl font-bold">{{ $totalKomoditas }}</h3>
                 </div>
-            </header>
-
-            {{-- Content --}}
-            <main class="flex-1 overflow-x-hidden overflow-y-auto px-6 pb-6">
-
-                {{-- Welcome Banner --}}
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                    <div class="col-span-1 lg:col-span-2 bg-card rounded-xl shadow-card p-6 relative overflow-hidden">
-                        <div class="absolute right-0 top-0 h-full w-48 opacity-10">
-                            <i class="bx bx-water text-primary" style="font-size: 12rem; line-height:1"></i>
-                        </div>
-                        <p class="text-secondary text-sm font-semibold mb-1">Selamat Datang,</p>
-                        <h4 class="text-heading font-bold text-2xl mb-1">{{ Auth::user()->name }} 👋</h4>
-                        <p class="text-secondary text-sm mb-4">Berikut ringkasan data perikanan budidaya Kabupaten
-                            Bolmut tahun {{ $tahun }}.</p>
-                        <a href="{{ route('publikasi-data.index') }}"
-                            class="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-primary/90 transition">
-                            <i class="bx bx-bar-chart-alt-2"></i> Lihat Publikasi Data
-                        </a>
+                <div class="bg-card p-4 rounded-xl shadow-card">
+                    <div class="bg-warning/10 text-warning w-10 h-10 rounded-lg flex items-center justify-center mb-2">
+                        <i class="bx bx-map text-xl"></i>
                     </div>
-
-                    {{-- Stat Cards --}}
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="bg-card p-4 rounded-xl shadow-card flex flex-col justify-between">
-                            <div
-                                class="bg-primary/10 text-primary w-10 h-10 rounded-lg flex items-center justify-center mb-2">
-                                <i class="bx bx-trending-up text-xl"></i>
-                            </div>
-                            <span class="text-secondary text-sm font-semibold mb-1">Total Produksi</span>
-                            <h3 class="text-heading text-xl font-bold">{{ number_format($totalProduksi, 2, ',', '.') }}
-                                <span class="text-sm font-normal">Ton</span>
-                            </h3>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-card p-4 rounded-xl shadow-card">
-                                <div
-                                    class="bg-info/10 text-info w-10 h-10 rounded-lg flex items-center justify-center mb-2">
-                                    <i class="bx bx-category text-xl"></i>
-                                </div>
-                                <span class="text-secondary text-xs font-semibold">Komoditas</span>
-                                <h3 class="text-heading text-xl font-bold">{{ $totalKomoditas }}</h3>
-                            </div>
-                            <div class="bg-card p-4 rounded-xl shadow-card">
-                                <div
-                                    class="bg-warning/10 text-warning w-10 h-10 rounded-lg flex items-center justify-center mb-2">
-                                    <i class="bx bx-map text-xl"></i>
-                                </div>
-                                <span class="text-secondary text-xs font-semibold">Kecamatan</span>
-                                <h3 class="text-heading text-xl font-bold">{{ $totalKecamatan }}</h3>
-                            </div>
-                        </div>
-                    </div>
+                    <span class="text-secondary text-xs font-semibold">Kecamatan</span>
+                    <h3 class="text-heading text-xl font-bold">{{ $totalKecamatan }}</h3>
                 </div>
-
-                {{-- Chart & Tabel --}}
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                    {{-- Bar Chart Produksi per Kecamatan --}}
-                    <div class="col-span-1 lg:col-span-2 bg-card rounded-xl shadow-card p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h5 class="text-heading font-bold text-lg">Produksi per Kecamatan</h5>
-                                <p class="text-secondary text-sm">Total akumulasi tahun {{ $tahun }}</p>
-                            </div>
-                        </div>
-                        <canvas id="chartKecamatan" height="120"></canvas>
-                    </div>
-
-                    {{-- Top Komoditas --}}
-                    <div class="col-span-1 bg-card rounded-xl shadow-card p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <h5 class="text-heading font-bold text-lg">Top Komoditas</h5>
-                        </div>
-                        <ul class="space-y-4">
-                            @foreach ($topKomoditas as $item)
-                                @php
-                                    $persen = $totalProduksi > 0 ? round(($item->total / $totalProduksi) * 100, 1) : 0;
-                                @endphp
-                                <li>
-                                    <div class="flex justify-between text-sm mb-1">
-                                        <span class="font-semibold text-heading">{{ $item->komoditas }}</span>
-                                        <span class="text-secondary">{{ number_format($item->total, 2, ',', '.') }}
-                                            Ton</span>
-                                    </div>
-                                    <div class="w-full bg-gray-100 rounded-full h-2">
-                                        <div class="bg-primary h-2 rounded-full" style="width: {{ $persen }}%">
-                                        </div>
-                                    </div>
-                                    <p class="text-xs text-secondary mt-0.5">{{ $persen }}% dari total</p>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-
-                <footer class="mt-8 text-center text-sm text-secondary">
-                    &copy; {{ date('Y') }} Dinas Perikanan Kabupaten Bolaang Mongondow Utara
-                </footer>
-            </main>
+            </div>
         </div>
     </div>
 
+    {{-- Chart & Tabel --}}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="col-span-1 lg:col-span-2 bg-card rounded-xl shadow-card p-6">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h5 class="text-heading font-bold text-lg">Produksi per Kecamatan</h5>
+                    <p class="text-secondary text-sm">Total akumulasi tahun {{ $tahun }}</p>
+                </div>
+            </div>
+            <canvas id="chartKecamatan" height="120"></canvas>
+        </div>
+
+        <div class="col-span-1 bg-card rounded-xl shadow-card p-6">
+            <h5 class="text-heading font-bold text-lg mb-4">Top Komoditas</h5>
+            <ul class="space-y-4">
+                @foreach ($topKomoditas as $item)
+                    @php $persen = $totalProduksi > 0 ? round(($item->total / $totalProduksi) * 100, 1) : 0; @endphp
+                    <li>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="font-semibold text-heading">{{ $item->komoditas }}</span>
+                            <span class="text-secondary">{{ number_format($item->total, 2, ',', '.') }} Ton</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full" style="width: {{ $persen }}%"></div>
+                        </div>
+                        <p class="text-xs text-secondary mt-0.5">{{ $persen }}% dari total</p>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
     <script>
         const ctx = document.getElementById('chartKecamatan').getContext('2d');
         new Chart(ctx, {
@@ -316,6 +132,4 @@
             }
         });
     </script>
-</body>
-
-</html>
+@endpush

@@ -46,6 +46,8 @@ class AnnouncementController extends Controller
             'attachment.max'   => 'Ukuran lampiran maksimal 5MB.',
         ]);
 
+        $validated['date'] = now();
+
         if ($request->hasFile('attachment')) {
             $validated['attachment'] = $request->file('attachment')
                 ->store('announcements', 'public');
@@ -76,6 +78,8 @@ class AnnouncementController extends Controller
             'attachment.max'   => 'Ukuran lampiran maksimal 5MB.',
         ]);
 
+        $validated['date'] = now();
+
         if ($request->hasFile('attachment')) {
             // Hapus file lama jika ada
             if ($announcement->attachment) {
@@ -90,6 +94,18 @@ class AnnouncementController extends Controller
         return redirect()
             ->route('admin.announcements.index')
             ->with('success', 'Pengumuman berhasil diperbarui.');
+    }
+
+    public function removeAttachment(Announcement $announcement)
+    {
+        if ($announcement->attachment) {
+            Storage::disk('public')->delete($announcement->attachment);
+            $announcement->update(['attachment' => null]);
+        }
+
+        return redirect()
+            ->route('admin.announcements.edit', $announcement->id)
+            ->with('success', 'Lampiran berhasil dihapus.');
     }
 
     public function destroy(Announcement $announcement)

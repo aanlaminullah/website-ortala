@@ -3,12 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\PublikasiDataController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
+
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+
 
 Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/publikasi-data', [PublikasiDataController::class, 'index'])->name('publikasi-data.index');
@@ -29,9 +33,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('announcements',                     [AnnouncementController::class, 'adminIndex'])->name('announcements.index');
     Route::get('announcements/create',              [AnnouncementController::class, 'create'])->name('announcements.create');
     Route::post('announcements',                    [AnnouncementController::class, 'store'])->name('announcements.store');
-    Route::get('announcements/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('announcements.edit');
-    Route::put('announcements/{announcement}',      [AnnouncementController::class, 'update'])->name('announcements.update');
-    Route::delete('announcements/{announcement}',   [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
+    Route::get('announcements/{announcement}/edit',                 [AnnouncementController::class, 'edit'])->name('announcements.edit');
+    Route::put('announcements/{announcement}',                      [AnnouncementController::class, 'update'])->name('announcements.update');
+    Route::delete('announcements/{announcement}/remove-attachment', [AnnouncementController::class, 'removeAttachment'])->name('announcements.remove-attachment');
+    Route::delete('announcements/{announcement}',                   [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
 });
 
 // Auth routes

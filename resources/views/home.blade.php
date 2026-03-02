@@ -173,19 +173,30 @@
                         <span class="bg-blue-600 text-xs px-2 py-1 rounded">Terbaru</span>
                     </div>
                     <div class="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
-                        <div class="p-4 hover:bg-gray-50 transition border-l-4 border-fish-accent cursor-pointer">
-                            <span class="text-xs font-semibold text-fish-blue mb-1 block">11 September 2025</span>
-                            <h5 class="text-sm font-bold text-gray-800 leading-snug mb-2">Pendaftaran Kartu KUSUKA bagi
-                                Nelayan Kecil</h5>
-                            <a href="#"
-                                class="text-xs text-gray-500 flex items-center hover:text-fish-blue">Download Syarat →</a>
-                        </div>
-                        <div
-                            class="p-4 hover:bg-gray-50 transition border-l-4 border-transparent hover:border-fish-accent cursor-pointer">
-                            <span class="text-xs font-semibold text-gray-500 mb-1 block">08 Juli 2025</span>
-                            <h5 class="text-sm font-bold text-gray-800 leading-snug mb-2">Peringatan Gelombang Tinggi
-                                Perairan Utara</h5>
-                        </div>
+                        @forelse($latestAnnouncements as $announcement)
+                            <div
+                                class="p-4 hover:bg-gray-50 transition border-l-4 {{ $loop->first ? 'border-fish-accent' : 'border-transparent hover:border-fish-accent' }} cursor-pointer">
+                                <span
+                                    class="text-xs font-semibold {{ $loop->first ? 'text-fish-blue' : 'text-gray-500' }} mb-1 block">
+                                    {{ \Carbon\Carbon::parse($announcement->date)->translatedFormat('d F Y') }}
+                                </span>
+                                <h5 class="text-sm font-bold text-gray-800 leading-snug mb-2">
+                                    {{ $announcement->title }}
+                                </h5>
+
+                                {{-- Asumsi jika ada link atau file lampiran --}}
+                                @if (isset($announcement->attachment))
+                                    <a href="{{ asset('storage/' . $announcement->attachment) }}"
+                                        class="text-xs text-gray-500 flex items-center hover:text-fish-blue">
+                                        Download Lampiran →
+                                    </a>
+                                @endif
+                            </div>
+                        @empty
+                            <div class="p-8 text-center text-gray-500">
+                                <p class="text-sm italic">Belum ada pengumuman terbaru.</p>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
 

@@ -27,7 +27,8 @@
                                 <div class="flex justify-between items-start mb-2">
                                     <span
                                         class="text-xs font-bold text-fish-accent uppercase tracking-wider">{{ $item['category'] }}</span>
-                                    <span class="text-xs text-gray-400">{{ $item['date'] }}</span>
+                                    <span
+                                        class="text-xs text-gray-400">{{ \Carbon\Carbon::parse($item['date'])->format('Y-m-d') }}</span>
                                 </div>
                                 <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-fish-blue transition">
                                     {{ $item['title'] }}
