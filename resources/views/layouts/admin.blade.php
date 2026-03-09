@@ -90,32 +90,49 @@
 
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Data</p>
 
-                <a href="{{ route('admin.publikasi-data.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                @if (setting_bool('modul_publikasi_data'))
+                    <a href="{{ route('admin.publikasi-data.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
                         {{ request()->routeIs('admin.publikasi-data.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
-                    <i class="bx bx-bar-chart-alt-2 text-xl"></i>
-                    <span class="font-medium">Publikasi Data</span>
-                </a>
+                        <i class="bx bx-bar-chart-alt-2 text-xl"></i>
+                        <span class="font-medium">Publikasi Data</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.announcements.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                @if (setting_bool('modul_pengumuman'))
+                    <a href="{{ route('admin.announcements.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
         {{ request()->routeIs('admin.announcements.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
-                    <i class="bx bxs-megaphone text-xl"></i>
-                    <span class="font-medium">Pengumuman</span>
-                </a>
+                        <i class="bx bxs-megaphone text-xl"></i>
+                        <span class="font-medium">Pengumuman</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.pejabat.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                @if (setting_bool('modul_struktur_organisasi'))
+                    <a href="{{ route('admin.pejabat.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
         {{ request()->routeIs('admin.pejabat.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
-                    <i class="bx bx-group text-xl"></i>
-                    <span class="font-medium">Struktur Organisasi</span>
-                </a>
+                        <i class="bx bx-group text-xl"></i>
+                        <span class="font-medium">Struktur Organisasi</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.visi-misi.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                @if (setting_bool('modul_visi_misi'))
+                    <a href="{{ route('admin.visi-misi.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
         {{ request()->routeIs('admin.visi-misi.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
-                    <i class="bx bx-shield-quarter text-xl"></i>
-                    <span class="font-medium">Visi & Misi</span>
+                        <i class="bx bx-shield-quarter text-xl"></i>
+                        <span class="font-medium">Visi & Misi</span>
+                    </a>
+                @endif
+
+                <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Sistem</p>
+
+                <a href="{{ route('admin.settings.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+        {{ request()->routeIs('admin.settings.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                    <i class="bx bx-cog text-xl"></i>
+                    <span class="font-medium">Pengaturan</span>
                 </a>
             </nav>
         </aside>

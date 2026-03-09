@@ -11,14 +11,21 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap"
         rel="stylesheet" />
 
+    <style>
+        :root {
+            --fish-blue: {{ setting('warna_primer', '#0284c7') }};
+            --fish-dark: {{ setting('warna_gelap', '#0c4a6e') }};
+            --fish-accent: {{ setting('warna_aksen', '#fbbf24') }};
+        }
+    </style>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        "fish-blue": "#0284c7",
-                        "fish-dark": "#0c4a6e",
-                        "fish-accent": "#fbbf24",
+                        "fish-blue": "{{ setting('warna_primer', '#0284c7') }}",
+                        "fish-dark": "{{ setting('warna_gelap', '#0c4a6e') }}",
+                        "fish-accent": "{{ setting('warna_aksen', '#fbbf24') }}",
                     },
                     fontFamily: {
                         sans: ["Inter", "sans-serif"],

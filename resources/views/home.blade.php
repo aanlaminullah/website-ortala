@@ -7,7 +7,7 @@
     <header class="relative bg-white overflow-hidden">
         <div class="absolute inset-0">
             <img class="w-full h-full object-cover opacity-100"
-                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src="{{ setting('hero_gambar') ? Storage::url(setting('hero_gambar')) : 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073' }}"
                 alt="Ocean Background" />
             <div class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
         </div>
@@ -19,13 +19,12 @@
                     <span class="mr-2">🐟</span> POTENSI MARITIM
                 </div>
                 <h2 class="text-4xl lg:text-5xl font-heading font-bold text-gray-900 leading-tight mb-6">
-                    Mewujudkan Perikanan <br />
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-fish-blue to-blue-400">Maju &
-                        Berkelanjutan</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-fish-blue to-blue-400">
+                        {{ setting('hero_judul', 'Mewujudkan Perikanan Maju & Berkelanjutan') }}
+                    </span>
                 </h2>
                 <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-                    Sistem informasi terpadu perikanan Kabupaten Bolaang Mongondow Utara untuk kesejahteraan nelayan dan
-                    pelestarian ekosistem laut yang lestari.
+                    {{ setting('hero_subjudul') }}
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <button
@@ -256,7 +255,7 @@
             </div>
         </div>
 
-        <div class="border-b border-gray-800 bg-gray-800/50 py-8">
+        <div class="border-b border-gray-800 bg-gray-800/50 py-8 mt-12">
             <div class="max-w-7xl mx-auto px-4 text-center">
                 <p class="text-xs uppercase tracking-widest text-gray-500 mb-4">
                     Instansi Terkait

@@ -47,6 +47,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('pejabat', \App\Http\Controllers\Admin\PejabatController::class)
         ->names('pejabat');
 
+    Route::get('settings',  [\App\Http\Controllers\Admin\SiteSettingController::class, 'index'])->name('settings.index');
+    Route::put('settings',  [\App\Http\Controllers\Admin\SiteSettingController::class, 'update'])->name('settings.update');
+
     Route::get('visi-misi',         [\App\Http\Controllers\Admin\VisiMisiController::class, 'index'])->name('visi-misi.index');
     Route::get('visi-misi/edit',    [\App\Http\Controllers\Admin\VisiMisiController::class, 'edit'])->name('visi-misi.edit');
     Route::put('visi-misi',         [\App\Http\Controllers\Admin\VisiMisiController::class, 'update'])->name('visi-misi.update');

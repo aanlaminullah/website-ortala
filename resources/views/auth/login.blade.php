@@ -33,7 +33,7 @@
         {{-- Panel Kiri --}}
         <div class="hidden lg:flex w-1/2 relative bg-lib-primary overflow-hidden items-center justify-center">
             <div class="absolute inset-0 z-0">
-                <img src="{{ asset('img/fish2.jpg') }}"
+                <img src="{{ setting('login_gambar') ? Storage::url(setting('login_gambar')) : asset('img/fish2.jpg') }}"
                     class="w-full h-full object-cover opacity-30 mix-blend-overlay" />
             </div>
             <div
