@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
-// use Illuminate\Http\Request;
+use App\Models\LensaKegiatan;
 
 class LandingController extends Controller
 {
@@ -14,6 +14,12 @@ class LandingController extends Controller
             ->take(2)
             ->get();
 
-        return view('home', compact('latestAnnouncements'));
+        $lensaKegiatan = LensaKegiatan::where('aktif', true)
+            ->orderBy('tanggal', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->take(4)
+            ->get();
+
+        return view('home', compact('latestAnnouncements', 'lensaKegiatan'));
     }
 }

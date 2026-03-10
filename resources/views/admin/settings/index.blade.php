@@ -35,12 +35,18 @@
                         class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
                 </div>
                 <div>
+                    <label class="block text-sm font-medium text-heading mb-1">Singkatan Dinas</label>
+                    <input type="text" name="singkatan_dinas" value="{{ setting('singkatan_dinas') }}"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+                    <p class="text-xs text-secondary mt-1">Digunakan di sidebar dashboard. Contoh: Diskan</p>
+                </div>
+                <div>
                     <label class="block text-sm font-medium text-heading mb-1">Sub Nama Dinas</label>
                     <input type="text" name="sub_nama_dinas" value="{{ setting('sub_nama_dinas') }}"
                         class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-heading mb-1">Nama Singkat</label>
+                    <label class="block text-sm font-medium text-heading mb-1">Nama Singkat Daerah</label>
                     <input type="text" name="nama_singkat" value="{{ setting('nama_singkat') }}"
                         class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
                     <p class="text-xs text-secondary mt-1">Digunakan di sidebar dashboard. Contoh: Bolmut</p>

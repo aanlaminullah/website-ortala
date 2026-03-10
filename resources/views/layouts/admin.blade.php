@@ -73,8 +73,10 @@
             <div class="flex items-center justify-center h-16 px-6 mt-2 mb-4">
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center gap-2 text-xl font-bold text-heading tracking-tight">
-                    <span class="text-primary text-3xl"><i class="bx bx-water"></i></span>
-                    <span>Perikanan<span class="text-primary">Bolmut</span></span>
+                    <img src="{{ str_starts_with(setting('logo', 'img/logo-bolmut.png'), 'img/') ? asset(setting('logo', 'img/logo-bolmut.png')) : Storage::url(setting('logo')) }}"
+                        alt="Logo" class="h-8 w-auto object-contain" />
+                    <span>{{ setting('singkatan_dinas', 'Diskan') }}<span
+                            class="text-primary">{{ setting('nama_singkat', 'Bolmut') }}</span></span>
                 </a>
             </div>
 
@@ -125,6 +127,13 @@
                         <span class="font-medium">Visi & Misi</span>
                     </a>
                 @endif
+
+                <a href="{{ route('admin.lensa-kegiatan.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+        {{ request()->routeIs('admin.lensa-kegiatan.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                    <i class="bx bx-camera text-xl"></i>
+                    <span class="font-medium">Lensa Kegiatan</span>
+                </a>
 
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Sistem</p>
 

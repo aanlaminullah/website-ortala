@@ -13,7 +13,8 @@ class SiteSettingSeeder extends Seeder
             // Identitas
             ['key' => 'nama_dinas',     'value' => 'Dinas Perikanan',                    'type' => 'text',    'group' => 'identitas'],
             ['key' => 'sub_nama_dinas', 'value' => 'Kab. Bolaang Mongondow Utara',        'type' => 'text',    'group' => 'identitas'],
-            ['key' => 'nama_singkat',   'value' => 'Bolmut',                              'type' => 'text',    'group' => 'identitas'],
+            ['key' => 'nama_singkat',   'value' => 'Bolmut',        'type' => 'text', 'group' => 'identitas'],
+            ['key' => 'singkatan_dinas', 'value' => 'Diskan',         'type' => 'text', 'group' => 'identitas'],
             ['key' => 'logo',           'value' => 'img/logo-bolmut.png',                 'type' => 'image',   'group' => 'identitas'],
 
             // Hero

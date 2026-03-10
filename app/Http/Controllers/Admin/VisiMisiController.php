@@ -31,7 +31,6 @@ class VisiMisiController extends Controller
             'misi.*'   => 'nullable|string',
         ]);
 
-        // Simpan atau update visi
         $visiMisi = VisiMisi::latest()->first();
         if ($visiMisi) {
             $visiMisi->update(['visi' => $request->visi]);
@@ -39,7 +38,6 @@ class VisiMisiController extends Controller
             $visiMisi = VisiMisi::create(['visi' => $request->visi]);
         }
 
-        // Hapus semua misi lama lalu simpan yang baru
         $visiMisi->misi()->delete();
 
         if ($request->filled('misi')) {

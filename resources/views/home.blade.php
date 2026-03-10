@@ -27,13 +27,13 @@
                     {{ setting('hero_subjudul') }}
                 </p>
                 <div class="flex flex-wrap gap-4">
-                    <button
+                    <a href="{{ route('publikasi-data.index') }}"
                         class="bg-fish-blue text-white px-8 py-3.5 rounded-lg font-semibold hover:bg-sky-700 transition shadow-lg shadow-blue-900/20 flex items-center">
-                        Info Harga Ikan
+                        Publikasi Data
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </button>
+                    </a>
                     <button
                         class="bg-white text-gray-700 border border-gray-300 px-8 py-3.5 rounded-lg font-semibold hover:bg-gray-50 transition flex items-center">
                         Profil Dinas
@@ -226,32 +226,28 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-white">Lensa Kegiatan</h2>
-                <div class="flex gap-2">
-                    <button class="bg-gray-700 text-white p-2 rounded-full hover:bg-fish-blue transition">&larr;</button>
-                    <button class="bg-gray-700 text-white p-2 rounded-full hover:bg-fish-blue transition">&rarr;</button>
-                </div>
+                <a href="{{ route('lensa-kegiatan.index') }}"
+                    class="text-sm font-semibold text-fish-accent hover:underline transition">
+                    Lihat Lainnya &rarr;
+                </a>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="aspect-square bg-gray-300 rounded-lg overflow-hidden relative group">
-                    <img src="https://www.mediasuaramabes.com/wp-content/uploads/2025/06/40909.jpg"
-                        class="w-full h-full object-cover transition duration-300 group-hover:scale-110" />
-                    <div
-                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-4">
-                        <span class="text-white text-xs font-medium">Panen Raya</span>
+                @forelse($lensaKegiatan as $item)
+                    <div class="aspect-square bg-gray-300 rounded-lg overflow-hidden relative group">
+                        <img src="{{ Storage::url($item->foto) }}" alt="{{ $item->judul }}"
+                            class="w-full h-full object-cover transition duration-300 group-hover:scale-110" />
+                        @if ($item->judul)
+                            <div
+                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                                <span class="text-white text-xs font-medium">{{ $item->judul }}</span>
+                            </div>
+                        @endif
                     </div>
-                </div>
-                <div class="aspect-square bg-gray-300 rounded-lg overflow-hidden relative group">
-                    <img src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                        class="w-full h-full object-cover transition duration-300 group-hover:scale-110" />
-                </div>
-                <div class="aspect-square bg-gray-300 rounded-lg overflow-hidden relative group">
-                    <img src="https://lh3.googleusercontent.com/proxy/j9VDwK7i_KJeJdaGT792xIOoxfrapLboRG7v3JcRpKXFeVb7yDbZ0BKa6Z82Poshb6lNUtBil5FtfoXojUtn77L72z4WWPMJwEYsPQwjIdscW-vFc8p95f7bQ8emTyvRtNqHDyBTEN02KIdkwzt-4jLQPvEbSzQroamhR7j65LcewcliQMT4VleDDVh7ycrthoQ4GILCflXvkZBNjnT_hXYSO118pP4"
-                        class="w-full h-full object-cover transition duration-300 group-hover:scale-110" />
-                </div>
-                <div class="aspect-square bg-gray-300 rounded-lg overflow-hidden relative group">
-                    <img src="https://mail.kapuashulukab.go.id/home/public/assets/images/posts/md_dinas-perikanan-ikuti-rapat-sinkronisasi-dak-tahun-2021-dan-monev-terpadu.jpeg"
-                        class="w-full h-full object-cover transition duration-300 group-hover:scale-110" />
-                </div>
+                @empty
+                    <div class="col-span-4 py-10 text-center text-gray-400 text-sm italic">
+                        Belum ada foto kegiatan.
+                    </div>
+                @endforelse
             </div>
         </div>
 
