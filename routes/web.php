@@ -10,6 +10,7 @@ use App\Http\Controllers\VisiMisiController;
 use App\Http\Controllers\LensaKegiatanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublikasiDokumenController;
+use App\Http\Controllers\BeritaController;
 
 
 // Route::get('/', function () {
@@ -26,7 +27,9 @@ Route::get('/visi-misi', [VisiMisiController::class, 'index'])->name('visi-misi.
 Route::get('/publikasi-data', [PublikasiDataController::class, 'index'])->name('publikasi-data.index')->middleware('modul:modul_publikasi_data');
 Route::get('/lensa-kegiatan', [LensaKegiatanController::class, 'index'])->name('lensa-kegiatan.index');
 Route::get('/publikasi-dokumen', [PublikasiDokumenController::class, 'index'])->name('publikasi-dokumen.index')->middleware('modul:modul_publikasi_dokumen');
-Route::get('/publikasi-dokumen/{publikasiDokumen}/download', [PublikasiDokumenController::class, 'download'])->name('publikasi-dokumen.download')->middleware('modul:modul_publikasi_dokumen');
+Route::get('/publikasi-dokumen/{publikasiDokumen:slug}/download', [PublikasiDokumenController::class, 'download'])->name('publikasi-dokumen.download')->middleware('modul:modul_publikasi_dokumen');
+Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index')->middleware('modul:modul_berita');
+Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show')->middleware('modul:modul_berita');
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::middleware('modul:modul_publikasi_data')->group(function () {

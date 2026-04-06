@@ -10,6 +10,7 @@ class PublikasiDokumen extends Model
 
     protected $fillable = [
         'judul',
+        'slug',
         'deskripsi',
         'kategori',
         'file',
@@ -65,5 +66,10 @@ class PublikasiDokumen extends Model
                 str_contains($this->tipe_file, 'document')                                                     => 'text-blue-500',
             default                                                                                         => 'text-gray-500',
         };
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

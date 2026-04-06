@@ -64,6 +64,13 @@
                     <input type="file" name="logo" accept="image/*"
                         class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
                 </div>
+                <div>
+                    <label class="block text-sm font-medium text-heading mb-1">Alias Berita (API)</label>
+                    <input type="text" name="berita_alias" value="{{ setting('berita_alias', 'bpkd') }}"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+                    <p class="text-xs text-secondary mt-1">Alias unit kerja untuk mengambil berita dari API. Contoh: bpkd,
+                        diskan</p>
+                </div>
             </div>
 
             {{-- Tab Hero --}}
@@ -133,7 +140,8 @@
             {{-- Tab Modul --}}
             <div x-show="tab === 'modul'" class="bg-card rounded-xl shadow-card p-6 space-y-4">
                 <h5 class="font-bold text-heading text-lg border-b border-gray-100 pb-3">Aktifkan / Nonaktifkan Modul</h5>
-                <p class="text-secondary text-sm">Modul yang dinonaktifkan tidak akan muncul di navbar maupun sidebar admin.
+                <p class="text-secondary text-sm">Modul yang dinonaktifkan tidak akan muncul di navbar maupun sidebar
+                    admin.
                 </p>
 
                 @foreach ([

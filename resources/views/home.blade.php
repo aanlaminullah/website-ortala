@@ -44,7 +44,7 @@
         <div class="hidden lg:block absolute right-20 top-20 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl"></div>
     </header>
 
-    <div class="relative z-10 -mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {{-- <div class="relative z-10 -mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-6 rounded-xl shadow-xl border border-gray-100">
 
             <a href="#"
@@ -99,69 +99,74 @@
             </a>
 
         </div>
-    </div>
+    </div> --}}
 
     <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
+            {{-- Berita --}}
             <div class="lg:col-span-2 space-y-8">
                 <div class="flex justify-between items-center mb-6 border-b border-gray-200 pb-4">
-                    <h3 class="text-2xl font-heading font-bold text-gray-900 border-l-4 border-fish-blue pl-3">Berita
-                    </h3>
-                    <a href="#" class="text-sm font-semibold text-fish-blue hover:underline">Lihat Semua</a>
+                    <h3 class="text-2xl font-heading font-bold text-gray-900 border-l-4 border-fish-blue pl-3">Berita</h3>
+                    @if (setting_bool('modul_berita'))
+                        <a href="{{ route('berita.index') }}"
+                            class="text-sm font-semibold text-fish-blue hover:underline">Lihat Semua</a>
+                    @endif
                 </div>
 
-                <article class="group relative rounded-2xl overflow-hidden shadow-lg h-96">
-                    <img src="https://images.unsplash.com/photo-1507124441518-c9584b9dc520?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Fisherman News"
-                        class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 p-8">
-                        <span
-                            class="bg-fish-blue text-white text-xs font-bold px-2 py-1 rounded mb-3 inline-block">UTAMA</span>
-                        <h4 class="text-2xl font-bold text-white mb-2 leading-tight group-hover:text-blue-200 transition">
-                            Penyaluran Bantuan Perahu dan Alat Tangkap Ramah Lingkungan
-                        </h4>
-                        <p class="text-gray-300 text-sm line-clamp-2 mb-4">
-                            Pemerintah Kabupaten terus berkomitmen meningkatkan kesejahteraan nelayan lokal dengan bantuan
-                            armada modern.
-                        </p>
-                        <span class="text-xs text-gray-400">📅 24 Juli 2025</span>
+                @if ($latestBerita->isEmpty())
+                    <div class="text-center py-12 text-gray-400">
+                        <p class="text-sm italic">Belum ada berita.</p>
                     </div>
-                </article>
+                @else
+                    {{-- Berita Utama --}}
+                    @php $utama = $latestBerita->first(); @endphp
+                    <a href="{{ route('berita.show', $utama['slug']) }}"
+                        class="group relative rounded-2xl overflow-hidden shadow-lg h-96 block">
+                        <img src="https://ppid.bolmutkab.go.id/img/{{ $utama['gambar'] }}"
+                            alt="{{ $utama['judul_berita'] }}"
+                            class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105"
+                            onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800'" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8">
+                            <span
+                                class="bg-fish-blue text-white text-xs font-bold px-2 py-1 rounded mb-3 inline-block">UTAMA</span>
+                            <h4
+                                class="text-2xl font-bold text-white mb-2 leading-tight group-hover:text-blue-200 transition">
+                                {{ $utama['judul_berita'] }}
+                            </h4>
+                            <span class="text-xs text-gray-300">{{ $utama['created_at'] }}</span>
+                        </div>
+                    </a>
 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <article
-                        class="flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                        <div class="h-48 overflow-hidden rounded-t-xl relative">
-                            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                                class="w-full h-full object-cover" />
-                            <span
-                                class="absolute top-2 right-2 bg-white/90 text-fish-blue text-xs font-bold px-2 py-1 rounded shadow">Sosialisasi</span>
+                    {{-- 2 Berita Lainnya --}}
+                    @if ($latestBerita->count() > 1)
+                        <div class="grid md:grid-cols-2 gap-6">
+                            @foreach ($latestBerita->skip(1) as $berita)
+                                <a href="{{ route('berita.show', $berita['slug']) }}"
+                                    class="flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition group">
+                                    <div class="h-48 overflow-hidden rounded-t-xl relative">
+                                        <img src="https://ppid.bolmutkab.go.id/img/{{ $berita['gambar'] }}"
+                                            alt="{{ $berita['judul_berita'] }}"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                            onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600'" />
+                                        <span
+                                            class="absolute top-2 right-2 bg-white/90 text-fish-blue text-xs font-bold px-2 py-1 rounded shadow capitalize">
+                                            {{ $berita['kategori'] ?? 'Berita' }}
+                                        </span>
+                                    </div>
+                                    <div class="p-5">
+                                        <span class="text-xs text-gray-400 block mb-2">{{ $berita['created_at'] }}</span>
+                                        <h4
+                                            class="font-bold text-gray-900 mb-2 group-hover:text-fish-blue transition line-clamp-2">
+                                            {{ $berita['judul_berita'] }}
+                                        </h4>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
-                        <div class="p-5">
-                            <span class="text-xs text-gray-400 block mb-2">01 Desember 2025</span>
-                            <h4 class="font-bold text-gray-900 mb-2 hover:text-fish-blue transition">
-                                Pelatihan Budidaya Ikan Air Tawar Sistem Bioflok
-                            </h4>
-                        </div>
-                    </article>
-                    <article
-                        class="flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                        <div class="h-48 overflow-hidden rounded-t-xl relative">
-                            <img src="https://plus.unsplash.com/premium_photo-1713316834449-d8fbe5f2aad3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                class="w-full h-full object-cover" />
-                            <span
-                                class="absolute top-2 right-2 bg-white/90 text-fish-blue text-xs font-bold px-2 py-1 rounded shadow">Konservasi</span>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-xs text-gray-400 block mb-2">26 November 2025</span>
-                            <h4 class="font-bold text-gray-900 mb-2 hover:text-fish-blue transition">
-                                Pelepasliaran Tukik dan Penanaman Mangrove Pesisir
-                            </h4>
-                        </div>
-                    </article>
-                </div>
+                    @endif
+                @endif
             </div>
 
             <div class="space-y-8">
@@ -198,25 +203,43 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                    <h3 class="font-heading font-bold text-gray-900 border-l-4 border-fish-blue pl-3 mb-4">Galeri Video
-                    </h3>
-                    <div class="rounded-lg overflow-hidden bg-black aspect-video relative group cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                            class="w-full h-full object-cover opacity-80 group-hover:opacity-60 transition" />
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div
-                                class="w-12 h-12 bg-fish-blue rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z">
-                                    </path>
-                                </svg>
-                            </div>
+                @if (setting_bool('modul_publikasi_dokumen') && $latestDokumen->count() > 0)
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-fish-dark text-white p-4 flex justify-between items-center">
+                            <h3 class="font-bold text-lg">📄 Publikasi Dokumen</h3>
+                            <a href="{{ route('publikasi-dokumen.index') }}"
+                                class="text-xs bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded transition">Lihat Semua</a>
+                        </div>
+                        <div class="divide-y divide-gray-100">
+                            @foreach ($latestDokumen as $dok)
+                                <div class="flex items-center gap-3 p-4 hover:bg-gray-50 transition">
+                                    <div
+                                        class="shrink-0 w-9 h-9 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center">
+                                        <i class="bx {{ $dok->ikonFile() }} text-xl {{ $dok->warnaIkon() }}"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-gray-800 truncate">{{ $dok->judul }}</p>
+                                        <div class="flex items-center gap-2 mt-0.5">
+                                            @if ($dok->kategori)
+                                                <span
+                                                    class="text-xs text-fish-blue font-medium">{{ $dok->kategori }}</span>
+                                            @endif
+                                            <span
+                                                class="text-xs text-gray-400">{{ $dok->tanggal->translatedFormat('d F Y') }}</span>
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('publikasi-dokumen.download', $dok) }}"
+                                        class="shrink-0 text-fish-blue hover:bg-blue-50 p-1.5 rounded-lg transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                    <p class="mt-3 text-sm font-medium text-gray-800">Potensi Perikanan Tangkap Laut Bolmut</p>
-                </div>
+                @endif
 
             </div>
         </div>

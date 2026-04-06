@@ -80,7 +80,7 @@
                 </a>
             </div>
 
-            <nav class="px-4 space-y-1 overflow-y-auto h-[calc(100vh-180px)]">
+            <nav class="px-4 space-y-1 overflow-y-auto h-[calc(100vh-80px)]">
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-4">Utama</p>
 
                 <a href="{{ route('dashboard') }}"

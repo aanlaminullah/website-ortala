@@ -1,7 +1,7 @@
 <footer class="bg-gray-900 text-gray-300 text-sm mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
+            {{-- <div>
                 <h3 class="text-white font-bold text-lg mb-4">Dinas Perikanan</h3>
                 <p class="mb-4 text-gray-400">
                     Dinas Perikanan Kabupaten Bolaang Mongondow Utara. Mengelola potensi bahari untuk kesejahteraan
@@ -14,7 +14,7 @@
                         </svg>
                     </a>
                 </div>
-            </div>
+            </div> --}}
 
             <div>
                 <h3 class="text-white font-bold text-lg mb-4">Kontak</h3>

@@ -36,6 +36,7 @@ class PublikasiDokumenController extends Controller
 
         $file = $request->file('file');
         $data = $request->only('judul', 'deskripsi', 'kategori', 'tahun', 'tanggal');
+        $data['slug'] = $this->generateSlug($request->judul, $request->tahun);
         $data['aktif']       = $request->boolean('aktif', true);
         $data['file']        = $file->store('publikasi-dokumen', 'public');
         $data['tipe_file']   = $file->getMimeType();
@@ -64,6 +65,7 @@ class PublikasiDokumenController extends Controller
         ]);
 
         $data = $request->only('judul', 'deskripsi', 'kategori', 'tahun', 'tanggal');
+        $data['slug'] = $this->generateSlug($request->judul, $request->tahun, $publikasiDokumen->id);
         $data['aktif'] = $request->boolean('aktif');
 
         if ($request->hasFile('file')) {
@@ -87,5 +89,23 @@ class PublikasiDokumenController extends Controller
 
         return redirect()->route('admin.publikasi-dokumen.index')
             ->with('success', 'Dokumen berhasil dihapus.');
+    }
+
+    private function generateSlug(string $judul, string $tahun, ?int $excludeId = null): string
+    {
+        $base = \Illuminate\Support\Str::slug($judul) . '-' . $tahun;
+        $slug = $base;
+        $counter = 1;
+
+        while (true) {
+            $query = \App\Models\PublikasiDokumen::where('slug', $slug);
+            if ($excludeId) {
+                $query->where('id', '!=', $excludeId);
+            }
+            if (!$query->exists()) break;
+            $slug = $base . '-' . $counter++;
+        }
+
+        return $slug;
     }
 }
