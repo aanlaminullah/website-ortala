@@ -53,12 +53,17 @@ class PublikasiDokumenController extends Controller
 
     public function download(PublikasiDokumen $publikasiDokumen)
     {
-        // Cek apakah di sesi ini user sudah mengunduh dokumen ini sebelumnya
+        // 1. Deteksi apakah yang mengakses adalah Bot/Sistem Preview Link (WA, Telegram, Safari prefetch, dll)
+        $userAgent = strtolower(request()->header('User-Agent'));
+        $isBot = preg_match('/(bot|spider|crawl|facebook|whatsapp|telegram|viber|skype|twitter|linkedin|slack|discord|applebot|cfnetwork|prefetch)/i', $userAgent);
+
+        // 2. Cek apakah di sesi ini user sudah mengunduh dokumen
         $sessionKey = 'downloaded_dokumen_' . $publikasiDokumen->id;
 
-        if (!session()->has($sessionKey)) {
+        // Hanya tambah counter jika bukan bot dan belum pernah download di sesi ini
+        if (!$isBot && !session()->has($sessionKey)) {
             $publikasiDokumen->increment('downloads');
-            session()->put($sessionKey, true); // Tandai bahwa user ini sudah mengunduh
+            session()->put($sessionKey, true);
         }
 
         return response()->download(
@@ -69,7 +74,14 @@ class PublikasiDokumenController extends Controller
 
     public function share(PublikasiDokumen $publikasiDokumen)
     {
-        $publikasiDokumen->increment('shares');
+        // Batasi counter share per sesi (mirip dengan download)
+        $sessionKey = 'shared_dokumen_' . $publikasiDokumen->id;
+
+        if (!session()->has($sessionKey)) {
+            $publikasiDokumen->increment('shares');
+            session()->put($sessionKey, true);
+        }
+
         return response()->json(['success' => true, 'shares' => $publikasiDokumen->shares]);
     }
 }
