@@ -53,9 +53,23 @@ class PublikasiDokumenController extends Controller
 
     public function download(PublikasiDokumen $publikasiDokumen)
     {
+        // Cek apakah di sesi ini user sudah mengunduh dokumen ini sebelumnya
+        $sessionKey = 'downloaded_dokumen_' . $publikasiDokumen->id;
+
+        if (!session()->has($sessionKey)) {
+            $publikasiDokumen->increment('downloads');
+            session()->put($sessionKey, true); // Tandai bahwa user ini sudah mengunduh
+        }
+
         return response()->download(
             storage_path('app/public/' . $publikasiDokumen->file),
             $publikasiDokumen->judul . '.' . pathinfo($publikasiDokumen->file, PATHINFO_EXTENSION)
         );
+    }
+
+    public function share(PublikasiDokumen $publikasiDokumen)
+    {
+        $publikasiDokumen->increment('shares');
+        return response()->json(['success' => true, 'shares' => $publikasiDokumen->shares]);
     }
 }

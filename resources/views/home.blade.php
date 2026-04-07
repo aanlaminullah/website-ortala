@@ -4,45 +4,139 @@
 
 @section('content')
 
-    <header class="relative bg-white overflow-hidden">
-        <div class="absolute inset-0">
-            <img class="w-full h-full object-cover opacity-100"
-                src="{{ setting('hero_gambar') ? Storage::url(setting('hero_gambar')) : 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073' }}"
-                alt="Ocean Background" />
-            <div class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
-        </div>
-
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-            <div class="max-w-2xl">
-                {{-- <div
-                    class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-fish-blue text-xs font-bold mb-6 border border-blue-100">
-                    <span class="mr-2">🐟</span> POTENSI MARITIM
-                </div> --}}
-                <h2 class="text-4xl lg:text-5xl font-heading font-bold text-gray-900 leading-tight mb-6">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-fish-blue to-blue-400">
-                        {{ setting('hero_judul', 'Mewujudkan Perikanan Maju & Berkelanjutan') }}
-                    </span>
-                </h2>
-                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-                    {{ setting('hero_subjudul') }}
-                </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="{{ route('publikasi-data.index') }}"
-                        class="bg-fish-blue text-white px-8 py-3.5 rounded-lg font-semibold hover:bg-sky-700 transition shadow-lg shadow-blue-900/20 flex items-center">
-                        Publikasi Data
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </a>
-                    <button
-                        class="bg-white text-gray-700 border border-gray-300 px-8 py-3.5 rounded-lg font-semibold hover:bg-gray-50 transition flex items-center">
-                        Profil Dinas
-                    </button>
+    @if (setting('hero_mode', 'carousel') === 'hero')
+        {{-- Hero --}}
+        <header class="relative bg-white overflow-hidden">
+            <div class="absolute inset-0">
+                <img class="w-full h-full object-cover opacity-100"
+                    src="{{ setting('hero_gambar') ? Storage::url(setting('hero_gambar')) : 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073' }}"
+                    alt="Ocean Background" />
+                <div class="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+            </div>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-48">
+                <div class="max-w-2xl">
+                    <h2 class="text-4xl lg:text-5xl font-heading font-bold text-gray-900 leading-tight mb-6">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-fish-blue to-blue-400">
+                            {{ setting('hero_judul', 'Mewujudkan Perikanan Maju & Berkelanjutan') }}
+                        </span>
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        {{ setting('hero_subjudul') }}
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="{{ route('publikasi-data.index') }}"
+                            class="bg-fish-blue text-white px-8 py-3.5 rounded-lg font-semibold hover:bg-sky-700 transition shadow-lg shadow-blue-900/20 flex items-center">
+                            Publikasi Data
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="{{ route('visi-misi.index') }}"
+                            class="bg-white text-gray-700 border border-gray-300 px-8 py-3.5 rounded-lg font-semibold hover:bg-gray-50 transition flex items-center">
+                            Profil Dinas
+                        </a>
+                    </div>
                 </div>
             </div>
+            <div class="hidden lg:block absolute right-20 top-20 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl"></div>
+        </header>
+    @else
+        {{-- Carousel --}}
+        <div class="relative w-full overflow-hidden" id="mainCarousel" style="height: 520px;">
+            <div class="carousel-slides absolute inset-0 flex transition-transform duration-700 ease-in-out"
+                id="carouselTrack">
+                @forelse($carouselItems as $item)
+                    <div class="carousel-slide relative w-full h-full flex-shrink-0">
+                        <img src="{{ Storage::url($item->gambar) }}" alt="{{ $item->judul }}"
+                            class="w-full h-full object-cover" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                        <div class="absolute bottom-16 left-0 right-0 px-8 md:px-16">
+                            <h2 class="text-white text-2xl md:text-3xl font-bold leading-snug drop-shadow">
+                                {{ $item->judul }}
+                            </h2>
+                            @if ($item->deskripsi)
+                                <p class="text-white/80 text-sm mt-2 max-w-xl">{{ $item->deskripsi }}</p>
+                            @endif
+                        </div>
+                    </div>
+                @empty
+                    <div class="carousel-slide relative w-full h-full flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073"
+                            class="w-full h-full object-cover" />
+                    </div>
+                @endforelse
+            </div>
+
+            <button id="carouselPrev"
+                class="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/30 hover:bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="carouselNext"
+                class="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/30 hover:bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2" id="carouselDots">
+                @foreach ($carouselItems as $index => $item)
+                    <button class="carousel-dot w-2.5 h-2.5 rounded-full bg-white/40 transition-all"
+                        data-index="{{ $index }}"></button>
+                @endforeach
+            </div>
         </div>
-        <div class="hidden lg:block absolute right-20 top-20 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl"></div>
-    </header>
+
+        @push('scripts')
+            <script>
+                (function() {
+                    const track = document.getElementById('carouselTrack');
+                    const dots = document.querySelectorAll('.carousel-dot');
+                    const total = dots.length;
+                    let current = 0;
+                    let timer = null;
+
+                    if (!track || total === 0) return;
+
+                    function goTo(index) {
+                        current = (index + total) % total;
+                        track.style.transform = `translateX(-${current * 100}%)`;
+                        dots.forEach((d, i) => {
+                            d.classList.toggle('bg-white', i === current);
+                            d.classList.toggle('bg-white/40', i !== current);
+                            d.style.width = i === current ? '24px' : '10px';
+                            d.style.borderRadius = '9999px';
+                        });
+                    }
+
+                    function startTimer() {
+                        clearInterval(timer);
+                        timer = setInterval(() => goTo(current + 1), 5000);
+                    }
+
+                    document.getElementById('carouselNext')?.addEventListener('click', () => {
+                        goTo(current + 1);
+                        startTimer();
+                    });
+                    document.getElementById('carouselPrev')?.addEventListener('click', () => {
+                        goTo(current - 1);
+                        startTimer();
+                    });
+                    dots.forEach(d => d.addEventListener('click', () => {
+                        goTo(+d.dataset.index);
+                        startTimer();
+                    }));
+
+                    goTo(0);
+                    startTimer();
+                })();
+            </script>
+        @endpush
+    @endif
+
+
 
     {{-- <div class="relative z-10 -mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-6 rounded-xl shadow-xl border border-gray-100">
@@ -129,8 +223,6 @@
                             onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800'" />
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-8">
-                            <span
-                                class="bg-fish-blue text-white text-xs font-bold px-2 py-1 rounded mb-3 inline-block">UTAMA</span>
                             <h4
                                 class="text-2xl font-bold text-white mb-2 leading-tight group-hover:text-blue-200 transition">
                                 {{ $utama['judul_berita'] }}
@@ -318,5 +410,50 @@
             </div>
         @endif
     </section>
+
+
+    @push('scripts')
+        <script>
+            (function() {
+                const track = document.getElementById('carouselTrack');
+                const dots = document.querySelectorAll('.carousel-dot');
+                const total = dots.length;
+                let current = 0;
+                let timer = null;
+
+                function goTo(index) {
+                    current = (index + total) % total;
+                    track.style.transform = `translateX(-${current * 100}%)`;
+                    dots.forEach((d, i) => {
+                        d.classList.toggle('bg-white', i === current);
+                        d.classList.toggle('bg-white/40', i !== current);
+                        d.style.width = i === current ? '24px' : '10px';
+                        d.style.borderRadius = '9999px';
+                    });
+                }
+
+                function startTimer() {
+                    clearInterval(timer);
+                    timer = setInterval(() => goTo(current + 1), 5000);
+                }
+
+                document.getElementById('carouselNext').addEventListener('click', () => {
+                    goTo(current + 1);
+                    startTimer();
+                });
+                document.getElementById('carouselPrev').addEventListener('click', () => {
+                    goTo(current - 1);
+                    startTimer();
+                });
+                dots.forEach(d => d.addEventListener('click', () => {
+                    goTo(+d.dataset.index);
+                    startTimer();
+                }));
+
+                goTo(0);
+                startTimer();
+            })();
+        </script>
+    @endpush
 
 @endsection

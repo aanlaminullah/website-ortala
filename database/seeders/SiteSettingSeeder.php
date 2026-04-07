@@ -37,6 +37,7 @@ class SiteSettingSeeder extends Seeder
             ['key' => 'modul_berita',                  'value' => '0', 'type' => 'boolean', 'group' => 'modul'],
             ['key' => 'modul_struktur_organisasi',     'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
             ['key' => 'modul_visi_misi',               'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
+            ['key' => 'hero_mode', 'value' => 'carousel', 'type' => 'text', 'group' => 'hero'],
 
             // Berita
             ['key' => 'berita_alias', 'value' => 'bpkd', 'type' => 'text', 'group' => 'berita'],

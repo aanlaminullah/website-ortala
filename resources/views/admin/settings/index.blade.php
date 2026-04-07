@@ -74,6 +74,25 @@
             </div>
 
             {{-- Tab Hero --}}
+            <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
+                <div>
+                    <p class="text-sm font-semibold text-heading">Mode Tampilan Halaman Utama</p>
+                    <p class="text-xs text-secondary mt-0.5">Pilih antara Hero (teks sambutan) atau Carousel (slideshow
+                        foto)</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 ml-4">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="hero_mode" value="hero"
+                            {{ setting('hero_mode', 'carousel') === 'hero' ? 'checked' : '' }} class="text-primary" />
+                        <span class="text-sm font-medium text-heading">Hero</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer ml-4">
+                        <input type="radio" name="hero_mode" value="carousel"
+                            {{ setting('hero_mode', 'carousel') === 'carousel' ? 'checked' : '' }} class="text-primary" />
+                        <span class="text-sm font-medium text-heading">Carousel</span>
+                    </label>
+                </div>
+            </div>
             <div x-show="tab === 'hero'" class="bg-card rounded-xl shadow-card p-6 space-y-5">
                 <h5 class="font-bold text-heading text-lg border-b border-gray-100 pb-3">Konten Halaman Utama</h5>
 

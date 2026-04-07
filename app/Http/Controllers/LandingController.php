@@ -7,6 +7,7 @@ use App\Models\LensaKegiatan;
 use App\Models\InstansiTerkait;
 use App\Models\PublikasiDokumen;
 use Illuminate\Support\Facades\Http;
+use App\Models\Carousel;
 
 class LandingController extends Controller
 {
@@ -50,12 +51,17 @@ class LandingController extends Controller
             }
         }
 
+        $carouselItems = Carousel::where('aktif', true)
+            ->orderBy('urutan')
+            ->get();
+
         return view('home', compact(
             'latestAnnouncements',
             'lensaKegiatan',
             'instansiTerkait',
             'latestDokumen',
-            'latestBerita'
+            'latestBerita',
+            'carouselItems'
         ));
     }
 }

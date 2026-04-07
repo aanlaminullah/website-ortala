@@ -112,6 +112,15 @@
                                         <span
                                             class="text-xs text-gray-400">{{ $item->tanggal->translatedFormat('d F Y') }}</span>
                                         <span class="text-xs text-gray-400">{{ $item->ukuranFormat() }}</span>
+                                        <span class="text-xs text-gray-500 flex items-center gap-1 ml-2"
+                                            title="Total Diunduh">
+                                            <i class="bx bx-download text-sm"></i> <span
+                                                id="download-count-{{ $item->id }}">{{ $item->downloads ?? 0 }}</span>
+                                        </span>
+                                        <span class="text-xs text-gray-500 flex items-center gap-1" title="Total Dibagikan">
+                                            <i class="bx bx-share-alt text-sm"></i> <span
+                                                id="share-count-{{ $item->id }}">{{ $item->shares ?? 0 }}</span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +128,7 @@
                             {{-- Tombol Aksi --}}
                             <div class="flex items-center gap-2 sm:shrink-0 self-end sm:self-auto">
                                 <button
-                                    onclick="shareDoc('{{ route('publikasi-dokumen.download', $item) }}', '{{ addslashes($item->judul) }}')"
+                                    onclick="shareDoc('{{ route('publikasi-dokumen.download', $item) }}', '{{ addslashes($item->judul) }}', '{{ route('publikasi-dokumen.share', $item) }}', '{{ $item->id }}')"
                                     class="inline-flex items-center gap-1.5 bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-gray-200 transition">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -128,12 +137,13 @@
                                     <span class="hidden sm:inline">Bagikan</span>
                                 </button>
                                 <a href="{{ route('publikasi-dokumen.download', $item) }}"
+                                    onclick="let countEl = document.getElementById('download-count-{{ $item->id }}'); countEl.innerText = parseInt(countEl.innerText) + 1;"
                                     class="inline-flex items-center gap-1.5 bg-fish-blue text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-sky-700 transition">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                     </svg>
-                                    Unduh
+                                    <span class="hidden sm:inline">Unduh</span>
                                 </a>
                             </div>
                         </div>
@@ -159,15 +169,34 @@
 
     @push('scripts')
         <script>
-            function shareDoc(url, judul) {
+            function shareDoc(url, judul, shareUrl, id) {
+                // Fungsi untuk mencatat share ke database tanpa memuat ulang halaman
+                const recordShare = () => {
+                    fetch(shareUrl, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    }).then(res => res.json()).then(data => {
+                        if (data.success) {
+                            document.getElementById('share-count-' + id).innerText = data.shares;
+                        }
+                    }).catch(err => console.error(err));
+                };
+
                 if (navigator.share) {
                     navigator.share({
                         title: judul,
                         text: 'Unduh dokumen: ' + judul,
                         url: url,
-                    });
+                    }).then(() => {
+                        recordShare();
+                    }).catch(console.error);
                 } else {
                     navigator.clipboard.writeText(url).then(function() {
+                        recordShare();
                         const toast = document.getElementById('toastCopy');
                         toast.classList.remove('opacity-0');
                         toast.classList.add('opacity-100');

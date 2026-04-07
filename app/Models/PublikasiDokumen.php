@@ -19,6 +19,8 @@ class PublikasiDokumen extends Model
         'tahun',
         'tanggal',
         'aktif',
+        'downloads',
+        'shares',
     ];
 
     protected $casts = [

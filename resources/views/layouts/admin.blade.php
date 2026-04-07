@@ -80,6 +80,8 @@
                 </a>
             </div>
 
+
+
             <nav class="px-4 space-y-1 overflow-y-auto h-[calc(100vh-80px)]">
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-4">Utama</p>
 
@@ -88,6 +90,13 @@
                         {{ request()->routeIs('dashboard') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                     <i class="bx bx-home-circle text-xl"></i>
                     <span class="font-medium">Dashboard</span>
+                </a>
+
+                <a href="{{ route('admin.carousel.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+        {{ request()->routeIs('admin.carousel.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                    <i class="bx bx-slideshow text-xl"></i>
+                    <span class="font-medium">Carousel</span>
                 </a>
 
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Data</p>
@@ -225,19 +234,23 @@
 
             {{-- Content --}}
             <main class="flex-1 overflow-x-hidden overflow-y-auto px-6 pb-6">
+                <div class="flex flex-col" style="min-height: calc(100vh - 112px);">
 
-                @if (session('success'))
-                    <div
-                        class="mb-4 px-4 py-3 bg-green-50 text-green-700 border border-green-200 rounded-xl text-sm flex items-center gap-2">
-                        <i class="bx bx-check-circle text-lg"></i> {{ session('success') }}
+                    @if (session('success'))
+                        <div
+                            class="mb-4 px-4 py-3 bg-green-50 text-green-700 border border-green-200 rounded-xl text-sm flex items-center gap-2">
+                            <i class="bx bx-check-circle text-lg"></i> {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <div class="flex-1">
+                        @yield('content')
                     </div>
-                @endif
 
-                @yield('content')
-
-                <footer class="mt-8 text-center text-sm text-secondary">
-                    &copy; {{ date('Y') }} Dinas Perikanan Kabupaten Bolaang Mongondow Utara
-                </footer>
+                    <footer class="mt-8 text-center text-sm text-secondary">
+                        &copy; {{ date('Y') }} Dinas Perikanan Kabupaten Bolaang Mongondow Utara
+                    </footer>
+                </div>
             </main>
         </div>
     </div>
@@ -248,6 +261,64 @@
             tab.addEventListener('click', function() {
                 const activeTabInput = document.getElementById('active_tab');
                 if (activeTabInput) activeTabInput.value = this.dataset.tab;
+            });
+        });
+    </script>
+
+    <div id="globalLoading"
+        class="fixed inset-0 z-[9999] bg-black/20 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200">
+        <img src="{{ asset('loading.svg') }}" alt="Loading..." class="w-16 h-16"
+            style="background: transparent; mix-blend-mode: multiply;" />
+    </div>
+
+    <script>
+        const _loading = document.getElementById('globalLoading');
+
+        function showLoading() {
+            _loading.classList.remove('opacity-0', 'pointer-events-none');
+            _loading.classList.add('opacity-100');
+        }
+
+        function hideLoading() {
+            _loading.classList.add('opacity-0', 'pointer-events-none');
+            _loading.classList.remove('opacity-100');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Semua form submit
+            document.querySelectorAll('form').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    const hasConfirm = form.getAttribute('onsubmit');
+                    if (hasConfirm) {
+                        const confirmed = confirm(form.getAttribute('onsubmit').replace(
+                            "return confirm('", '').replace("')", ''));
+                        if (!confirmed) return;
+                        form.removeAttribute('onsubmit');
+                    }
+                    showLoading();
+                });
+            });
+
+            // Semua link navigasi sidebar & header (kecuali yang buka tab baru)
+            document.querySelectorAll('a[href]').forEach(function(link) {
+                const href = link.getAttribute('href');
+                if (
+                    !href ||
+                    href === '#' ||
+                    href.startsWith('javascript') ||
+                    href.startsWith('mailto') ||
+                    href.startsWith('tel') ||
+                    link.getAttribute('target') === '_blank'
+                ) return;
+
+                link.addEventListener('click', function(e) {
+                    showLoading();
+                });
+            });
+
+            // Sembunyikan loading saat halaman selesai load (back/forward)
+            window.addEventListener('pageshow', function() {
+                hideLoading();
             });
         });
     </script>
