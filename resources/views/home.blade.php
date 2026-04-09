@@ -24,14 +24,64 @@
                         {{ setting('hero_subjudul') }}
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="{{ route('publikasi-data.index') }}"
-                            class="bg-fish-blue text-white px-8 py-3.5 rounded-lg font-semibold hover:bg-sky-700 transition shadow-lg shadow-blue-900/20 flex items-center">
-                            Publikasi Data
-                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                                </path>
-                            </svg>
-                        </a>
+                        {{-- Tombol Publikasi dengan dropdown seperti navbar --}}
+                        @if (setting_bool('modul_publikasi_data') ||
+                                setting_bool('modul_data_tangkap') ||
+                                setting_bool('modul_publikasi_dokumen'))
+                            <div class="relative group">
+                                <button type="button"
+                                    class="bg-fish-blue text-white px-8 py-3.5 rounded-lg font-semibold hover:bg-sky-700 transition shadow-lg shadow-blue-900/20 flex items-center gap-2 select-none">
+                                    Publikasi
+                                    <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                {{-- Dropdown panel --}}
+                                <div
+                                    class="absolute top-full left-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <div
+                                        class="absolute -top-1.5 left-6 w-3 h-3 bg-white border-l border-t border-gray-100 rotate-45">
+                                    </div>
+                                    <div class="p-2">
+                                        @if (setting_bool('modul_publikasi_data'))
+                                            <a href="{{ route('publikasi-data.index') }}"
+                                                class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition">
+                                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                </svg>
+                                                Data Produksi
+                                            </a>
+                                        @endif
+                                        @if (setting_bool('modul_data_tangkap'))
+                                            <a href="#"
+                                                class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition">
+                                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                                                </svg>
+                                                Data Tangkap
+                                            </a>
+                                        @endif
+                                        @if (setting_bool('modul_publikasi_dokumen'))
+                                            <a href="{{ route('publikasi-dokumen.index') }}"
+                                                class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition">
+                                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                </svg>
+                                                Dokumen
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         <a href="{{ route('visi-misi.index') }}"
                             class="bg-white text-gray-700 border border-gray-300 px-8 py-3.5 rounded-lg font-semibold hover:bg-gray-50 transition flex items-center">
                             Profil Dinas

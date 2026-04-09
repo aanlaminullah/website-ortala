@@ -18,8 +18,8 @@ class SiteSettingSeeder extends Seeder
             ['key' => 'logo',           'value' => 'img/logo-bolmut.png',                 'type' => 'image',   'group' => 'identitas'],
 
             // Hero
-            ['key' => 'hero_judul',     'value' => 'Mewujudkan Perikanan Maju & Berkelanjutan', 'type' => 'text', 'group' => 'hero'],
-            ['key' => 'hero_subjudul',  'value' => 'Sistem informasi terpadu perikanan Kabupaten Bolaang Mongondow Utara untuk kesejahteraan nelayan dan pelestarian ekosistem laut yang lestari.', 'type' => 'text', 'group' => 'hero'],
+            ['key' => 'hero_judul',     'value' => 'Mewujudkan Tata Kelola Pemerintahan yang Efektif & Efisien', 'type' => 'text', 'group' => 'hero'],
+            ['key' => 'hero_subjudul',  'value' => 'Transformasi organisasi melalui penguatan kelembagaan, analisis jabatan, dan peningkatan kualitas pelayanan publik.', 'type' => 'text', 'group' => 'hero'],
             ['key' => 'hero_gambar',    'value' => null,                                  'type' => 'image',   'group' => 'hero'],
             ['key' => 'login_gambar',   'value' => null,                                  'type' => 'image',   'group' => 'hero'],
             ['key' => 'login_quote',    'value' => 'Data yang akurat adalah fondasi kebijakan perikanan yang tepat sasaran untuk kesejahteraan nelayan.', 'type' => 'text', 'group' => 'hero'],
