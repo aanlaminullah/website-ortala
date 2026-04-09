@@ -92,12 +92,14 @@
                     <span class="font-medium">Dashboard</span>
                 </a>
 
+                @if (setting('hero_mode', 'carousel') === 'carousel')
                 <a href="{{ route('admin.carousel.index') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
         {{ request()->routeIs('admin.carousel.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                     <i class="bx bx-slideshow text-xl"></i>
                     <span class="font-medium">Carousel</span>
                 </a>
+                @endif
 
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Data</p>
 
@@ -162,6 +164,7 @@
                     <span class="font-medium">Instansi Terkait</span>
                 </a>
 
+                @if (Auth::user()->isAdmin())
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Sistem</p>
 
                 <a href="{{ route('admin.settings.index') }}"
@@ -170,6 +173,7 @@
                     <i class="bx bx-cog text-xl"></i>
                     <span class="font-medium">Pengaturan</span>
                 </a>
+                @endif
             </nav>
         </aside>
 

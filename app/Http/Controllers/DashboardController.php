@@ -2,53 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kecamatan;
-use App\Models\ProduksiBudidaya;
+use App\Models\Announcement;
+use App\Models\Carousel;
+use App\Models\InstansiTerkait;
+use App\Models\LensaKegiatan;
+use App\Models\PublikasiDokumen;
 use Illuminate\Http\Request;
-
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $tahunTersedia = ProduksiBudidaya::selectRaw('DISTINCT tahun')
-            ->orderBy('tahun', 'desc')
-            ->pluck('tahun');
+        // Stat cards
+        $totalDokumen      = PublikasiDokumen::where('aktif', true)->count();
+        $totalPengumuman   = Announcement::count();
+        $totalInstansi     = InstansiTerkait::count();
+        $totalCarousel     = Carousel::count();
+        $totalLensa        = LensaKegiatan::where('aktif', true)->count();
 
-        $tahun = $request->get('tahun', $tahunTersedia->first() ?? date('Y'));
+        // Chart: dokumen diterbitkan per bulan (tahun berjalan)
+        $tahun = date('Y');
+        $dokumenPerBulan = PublikasiDokumen::selectRaw('MONTH(tanggal) as bulan, COUNT(*) as total')
+            ->whereYear('tanggal', $tahun)
+            ->where('aktif', true)
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->pluck('total', 'bulan');
 
-        $totalProduksi  = ProduksiBudidaya::where('tahun', $tahun)->sum('jumlah');
-        $totalKomoditas = ProduksiBudidaya::where('tahun', $tahun)->distinct('komoditas')->count('komoditas');
-        $totalKecamatan = ProduksiBudidaya::where('tahun', $tahun)->distinct('kecamatan_id')->count('kecamatan_id');
+        // Lengkapi semua 12 bulan
+        $chartData = collect(range(1, 12))->map(fn($m) => $dokumenPerBulan->get($m, 0))->values();
 
-        // Top 5 komoditas berdasarkan jumlah produksi
-        $topKomoditas = ProduksiBudidaya::where('tahun', $tahun)
-            ->selectRaw('komoditas, SUM(jumlah) as total')
-            ->groupBy('komoditas')
-            ->orderByDesc('total')
-            ->limit(5)
-            ->get();
-
-        // Produksi per kecamatan (join ke tabel kecamatan untuk ambil nama)
-        $produksiPerKecamatan = ProduksiBudidaya::where('produksi_budidaya.tahun', $tahun)
-            ->join('kecamatan', 'kecamatan.id', '=', 'produksi_budidaya.kecamatan_id')
-            ->selectRaw('kecamatan.kode, kecamatan.nama as kecamatan, SUM(produksi_budidaya.jumlah) as total')
-            ->groupBy('kecamatan.id', 'kecamatan.kode', 'kecamatan.nama')
-            ->orderBy('kecamatan.kode')
-            ->get();
-
-        $tahunList = ProduksiBudidaya::selectRaw('DISTINCT tahun')
-            ->orderBy('tahun', 'desc')
-            ->pluck('tahun');
+        // 5 pengumuman terbaru
+        $pengumumanTerbaru = Announcement::orderByDesc('date')->limit(5)->get();
 
         return view('dashboard.index', compact(
+            'totalDokumen',
+            'totalPengumuman',
+            'totalInstansi',
+            'totalCarousel',
+            'totalLensa',
             'tahun',
-            'tahunList',
-            'totalProduksi',
-            'totalKomoditas',
-            'totalKecamatan',
-            'topKomoditas',
-            'produksiPerKecamatan'
+            'chartData',
+            'pengumumanTerbaru'
         ));
     }
 }

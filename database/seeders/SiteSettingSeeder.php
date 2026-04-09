@@ -11,15 +11,15 @@ class SiteSettingSeeder extends Seeder
     {
         $settings = [
             // Identitas
-            ['key' => 'nama_dinas',     'value' => 'Dinas Perikanan',                    'type' => 'text',    'group' => 'identitas'],
-            ['key' => 'sub_nama_dinas', 'value' => 'Kab. Bolaang Mongondow Utara',        'type' => 'text',    'group' => 'identitas'],
-            ['key' => 'nama_singkat',   'value' => 'Bolmut',        'type' => 'text', 'group' => 'identitas'],
-            ['key' => 'singkatan_dinas', 'value' => 'Diskan',         'type' => 'text', 'group' => 'identitas'],
+            ['key' => 'nama_dinas',     'value' => 'Bagian Organisasi dan Tata Laksana',                    'type' => 'text',    'group' => 'identitas'],
+            ['key' => 'sub_nama_dinas', 'value' => 'Pemerintah Kabupaten Bolaang Mongondow Utara',        'type' => 'text',    'group' => 'identitas'],
+            ['key' => 'nama_singkat',   'value' => 'Boltara',        'type' => 'text', 'group' => 'identitas'],
+            ['key' => 'singkatan_dinas', 'value' => 'Ortala',         'type' => 'text', 'group' => 'identitas'],
             ['key' => 'logo',           'value' => 'img/logo-bolmut.png',                 'type' => 'image',   'group' => 'identitas'],
 
             // Hero
-            ['key' => 'hero_judul',     'value' => 'Mewujudkan Perikanan Maju & Berkelanjutan', 'type' => 'text', 'group' => 'hero'],
-            ['key' => 'hero_subjudul',  'value' => 'Sistem informasi terpadu perikanan Kabupaten Bolaang Mongondow Utara untuk kesejahteraan nelayan dan pelestarian ekosistem laut yang lestari.', 'type' => 'text', 'group' => 'hero'],
+            ['key' => 'hero_judul',     'value' => 'Mewujudkan Tata Kelola Pemerintahan yang Efektif & Efisien', 'type' => 'text', 'group' => 'hero'],
+            ['key' => 'hero_subjudul',  'value' => 'Transformasi organisasi melalui penguatan kelembagaan, analisis jabatan, dan peningkatan kualitas pelayanan publik.', 'type' => 'text', 'group' => 'hero'],
             ['key' => 'hero_gambar',    'value' => null,                                  'type' => 'image',   'group' => 'hero'],
             ['key' => 'login_gambar',   'value' => null,                                  'type' => 'image',   'group' => 'hero'],
             ['key' => 'login_quote',    'value' => 'Data yang akurat adalah fondasi kebijakan perikanan yang tepat sasaran untuk kesejahteraan nelayan.', 'type' => 'text', 'group' => 'hero'],

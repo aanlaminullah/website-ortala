@@ -68,8 +68,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('lensa-kegiatan', \App\Http\Controllers\Admin\LensaKegiatanController::class)
         ->names('lensa-kegiatan');
 
-    Route::get('settings',  [\App\Http\Controllers\Admin\SiteSettingController::class, 'index'])->name('settings.index');
-    Route::put('settings',  [\App\Http\Controllers\Admin\SiteSettingController::class, 'update'])->name('settings.update');
+    Route::middleware('role:admin')->group(function () {
+        Route::get('settings',  [\App\Http\Controllers\Admin\SiteSettingController::class, 'index'])->name('settings.index');
+        Route::put('settings',  [\App\Http\Controllers\Admin\SiteSettingController::class, 'update'])->name('settings.update');
+    });
 
     Route::get('publikasi-dokumen',                                     [\App\Http\Controllers\Admin\PublikasiDokumenController::class, 'index'])->name('publikasi-dokumen.index');
     Route::get('publikasi-dokumen/create',                              [\App\Http\Controllers\Admin\PublikasiDokumenController::class, 'create'])->name('publikasi-dokumen.create');
@@ -82,8 +84,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('instansi-terkait/reorder', [\App\Http\Controllers\Admin\InstansiTerkaitController::class, 'reorder'])->name('instansi-terkait.reorder');
     Route::resource('instansi-terkait', \App\Http\Controllers\Admin\InstansiTerkaitController::class)->names('instansi-terkait');
 
-    Route::post('carousel/reorder', [\App\Http\Controllers\Admin\CarouselController::class, 'reorder'])->name('carousel.reorder');
-    Route::resource('carousel', \App\Http\Controllers\Admin\CarouselController::class)->names('carousel');
+    Route::middleware('hero_carousel')->group(function () {
+        Route::post('carousel/reorder', [\App\Http\Controllers\Admin\CarouselController::class, 'reorder'])->name('carousel.reorder');
+        Route::resource('carousel', \App\Http\Controllers\Admin\CarouselController::class)->names('carousel');
+    });
 });
 
 // Auth routes

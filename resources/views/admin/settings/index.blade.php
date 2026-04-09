@@ -74,64 +74,90 @@
             </div>
 
             {{-- Tab Hero --}}
-            <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
-                <div>
-                    <p class="text-sm font-semibold text-heading">Mode Tampilan Halaman Utama</p>
-                    <p class="text-xs text-secondary mt-0.5">Pilih antara Hero (teks sambutan) atau Carousel (slideshow
-                        foto)</p>
+            <div x-show="tab === 'hero'" class="space-y-6"
+                x-data="{ mode: '{{ setting('hero_mode', 'carousel') }}' }">
+                <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
+                    <div>
+                        <p class="text-sm font-semibold text-heading">Mode Tampilan Halaman Utama</p>
+                        <p class="text-xs text-secondary mt-0.5">Pilih antara Hero (teks sambutan) atau Carousel (slideshow
+                            foto)</p>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0 ml-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="hero_mode" value="hero"
+                                {{ setting('hero_mode', 'carousel') === 'hero' ? 'checked' : '' }}
+                                @change="mode = 'hero'" class="text-primary" />
+                            <span class="text-sm font-medium text-heading">Hero</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer ml-4">
+                            <input type="radio" name="hero_mode" value="carousel"
+                                {{ setting('hero_mode', 'carousel') === 'carousel' ? 'checked' : '' }}
+                                @change="mode = 'carousel'" class="text-primary" />
+                            <span class="text-sm font-medium text-heading">Carousel</span>
+                        </label>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2 shrink-0 ml-4">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="hero_mode" value="hero"
-                            {{ setting('hero_mode', 'carousel') === 'hero' ? 'checked' : '' }} class="text-primary" />
-                        <span class="text-sm font-medium text-heading">Hero</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer ml-4">
-                        <input type="radio" name="hero_mode" value="carousel"
-                            {{ setting('hero_mode', 'carousel') === 'carousel' ? 'checked' : '' }} class="text-primary" />
-                        <span class="text-sm font-medium text-heading">Carousel</span>
-                    </label>
-                </div>
-            </div>
-            <div x-show="tab === 'hero'" class="bg-card rounded-xl shadow-card p-6 space-y-5">
-                <h5 class="font-bold text-heading text-lg border-b border-gray-100 pb-3">Konten Halaman Utama</h5>
 
-                <div>
-                    <label class="block text-sm font-medium text-heading mb-1">Judul Hero</label>
-                    <input type="text" name="hero_judul" value="{{ setting('hero_judul') }}"
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+                {{-- Info banner mode carousel --}}
+                <div x-show="mode === 'carousel'"
+                    class="flex items-start gap-3 p-4 rounded-xl border border-blue-100 bg-blue-50 text-blue-700 text-sm">
+                    <i class="bx bx-info-circle text-xl shrink-0 mt-0.5"></i>
+                    <p>Mode <strong>Carousel</strong> aktif. Halaman utama akan menampilkan slideshow foto.
+                        Anda dapat mengelola slide di menu <strong>Carousel</strong> pada sidebar.
+                        Upload gambar hero di bawah tidak digunakan dalam mode ini.</p>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-heading mb-1">Sub Judul Hero</label>
-                    <textarea name="hero_subjudul" rows="3"
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none">{{ setting('hero_subjudul') }}</textarea>
+
+                {{-- Info banner mode hero --}}
+                <div x-show="mode === 'hero'"
+                    class="flex items-start gap-3 p-4 rounded-xl border border-green-100 bg-green-50 text-green-700 text-sm">
+                    <i class="bx bx-info-circle text-xl shrink-0 mt-0.5"></i>
+                    <p>Mode <strong>Hero</strong> aktif. Halaman utama akan menampilkan banner statis dengan teks sambutan.
+                        Menu Carousel pada sidebar tidak dapat diakses dalam mode ini.</p>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-heading mb-1">Gambar Background Hero</label>
-                    @if (setting('hero_gambar'))
-                        <div class="mb-2">
-                            <img src="{{ Storage::url(setting('hero_gambar')) }}"
-                                class="h-28 w-full object-cover rounded-lg border" />
-                        </div>
-                    @endif
-                    <input type="file" name="hero_gambar" accept="image/*"
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-heading mb-1">Gambar Background Login</label>
-                    @if (setting('login_gambar'))
-                        <div class="mb-2">
-                            <img src="{{ Storage::url(setting('login_gambar')) }}"
-                                class="h-28 w-full object-cover rounded-lg border" />
-                        </div>
-                    @endif
-                    <input type="file" name="login_gambar" accept="image/*"
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-heading mb-1">Quote Halaman Login</label>
-                    <textarea name="login_quote" rows="3"
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none">{{ setting('login_quote') }}</textarea>
+
+                <div class="bg-card rounded-xl shadow-card p-6 space-y-5">
+                    <h5 class="font-bold text-heading text-lg border-b border-gray-100 pb-3">Konten Halaman Utama</h5>
+
+                    <div>
+                        <label class="block text-sm font-medium text-heading mb-1">Judul Hero</label>
+                        <input type="text" name="hero_judul" value="{{ setting('hero_judul') }}"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-heading mb-1">Sub Judul Hero</label>
+                        <textarea name="hero_subjudul" rows="3"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none">{{ setting('hero_subjudul') }}</textarea>
+                    </div>
+
+                    {{-- Gambar hero hanya muncul saat mode hero --}}
+                    <div x-show="mode === 'hero'">
+                        <label class="block text-sm font-medium text-heading mb-1">Gambar Background Hero</label>
+                        @if (setting('hero_gambar'))
+                            <div class="mb-2">
+                                <img src="{{ Storage::url(setting('hero_gambar')) }}"
+                                    class="h-28 w-full object-cover rounded-lg border" />
+                            </div>
+                        @endif
+                        <input type="file" name="hero_gambar" accept="image/*"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-heading mb-1">Gambar Background Login</label>
+                        @if (setting('login_gambar'))
+                            <div class="mb-2">
+                                <img src="{{ Storage::url(setting('login_gambar')) }}"
+                                    class="h-28 w-full object-cover rounded-lg border" />
+                            </div>
+                        @endif
+                        <input type="file" name="login_gambar" accept="image/*"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-heading mb-1">Quote Halaman Login</label>
+                        <textarea name="login_quote" rows="3"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none">{{ setting('login_quote') }}</textarea>
+                    </div>
                 </div>
             </div>
 
