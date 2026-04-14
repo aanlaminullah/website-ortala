@@ -21,6 +21,7 @@
     <meta name="keywords" content="@yield('meta_keywords', 'dinas perikanan, bolmut, bolaang mongondow utara, perikanan, kelautan, ppid, pemerintah')" />
     <meta name="author" content="{{ setting('nama_dinas', 'Dinas Perikanan Bolmut') }}" />
     <meta name="robots" content="index, follow" />
+    <meta name="google-site-verification" content="NMF1euNUJ-ed-CDoME7tvllftt3lF-sSV8OnA-amZkI" />
     <link rel="canonical" href="{{ url()->current() }}" />
 
     <!-- Open Graph / Facebook -->
