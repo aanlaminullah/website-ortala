@@ -11,10 +11,10 @@ class SiteSettingSeeder extends Seeder
     {
         $settings = [
             // Identitas
-            ['key' => 'nama_dinas',     'value' => 'Bagian Organisasi dan Tata Laksana',                    'type' => 'text',    'group' => 'identitas'],
-            ['key' => 'sub_nama_dinas', 'value' => 'Pemerintah Kabupaten Bolaang Mongondow Utara',        'type' => 'text',    'group' => 'identitas'],
-            ['key' => 'nama_singkat',   'value' => 'Boltara',        'type' => 'text', 'group' => 'identitas'],
-            ['key' => 'singkatan_dinas', 'value' => 'Ortala',         'type' => 'text', 'group' => 'identitas'],
+            ['key' => 'nama_dinas',     'value' => 'Dinas Perikanan',                    'type' => 'text',    'group' => 'identitas'],
+            ['key' => 'sub_nama_dinas', 'value' => 'Kab. Bolaang Mongondow Utara',        'type' => 'text',    'group' => 'identitas'],
+            ['key' => 'nama_singkat',   'value' => 'Bolmut',        'type' => 'text', 'group' => 'identitas'],
+            ['key' => 'singkatan_dinas', 'value' => 'Diskan',         'type' => 'text', 'group' => 'identitas'],
             ['key' => 'logo',           'value' => 'img/logo-bolmut.png',                 'type' => 'image',   'group' => 'identitas'],
 
             // Hero

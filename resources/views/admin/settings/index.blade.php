@@ -75,8 +75,7 @@
             </div>
 
             {{-- Tab Hero --}}
-            <div x-show="tab === 'hero'" class="space-y-6"
-                x-data="{ mode: '{{ setting('hero_mode', 'carousel') }}' }">
+            <div x-show="tab === 'hero'" class="space-y-6" x-data="{ mode: '{{ setting('hero_mode', 'carousel') }}' }">
                 <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
                     <div>
                         <p class="text-sm font-semibold text-heading">Mode Tampilan Halaman Utama</p>
@@ -86,8 +85,8 @@
                     <div class="flex items-center gap-2 shrink-0 ml-4">
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="radio" name="hero_mode" value="hero"
-                                {{ setting('hero_mode', 'carousel') === 'hero' ? 'checked' : '' }}
-                                @change="mode = 'hero'" class="text-primary" />
+                                {{ setting('hero_mode', 'carousel') === 'hero' ? 'checked' : '' }} @change="mode = 'hero'"
+                                class="text-primary" />
                             <span class="text-sm font-medium text-heading">Hero</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer ml-4">
