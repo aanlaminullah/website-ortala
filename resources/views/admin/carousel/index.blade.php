@@ -12,61 +12,76 @@
 
 @section('content')
     @if ($carousel->count() > 0)
-        <p class="text-sm text-secondary mb-4 flex items-center gap-2">
-            <i class="bx bx-info-circle"></i>
-            Drag & drop untuk mengubah urutan tampil. Urutan tersimpan otomatis.
+        <p class="text-xs text-secondary mb-4 flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-lg">
+            <i class="bx bx-info-circle text-lg"></i>
+            Tarik (drag) baris tabel untuk mengubah urutan tampil. Perubahan disimpan otomatis.
         </p>
     @endif
 
-    <div id="sortableCarousel" class="flex flex-col gap-3">
-        @forelse($carousel as $item)
-            <div class="bg-card rounded-xl shadow-card overflow-hidden flex items-center gap-4 px-4 py-3 cursor-grab active:cursor-grabbing select-none"
-                data-id="{{ $item->id }}">
-                {{-- Handle --}}
-                <div class="text-secondary hover:text-primary transition shrink-0">
-                    <i class="bx bx-grid-vertical text-xl"></i>
-                </div>
-
-                {{-- Gambar preview --}}
-                <div class="w-24 h-14 rounded-lg overflow-hidden shrink-0 bg-gray-100">
-                    <img src="{{ Storage::url($item->gambar) }}" alt="{{ $item->judul }}"
-                        class="w-full h-full object-cover" />
-                </div>
-
-                {{-- Info --}}
-                <div class="flex-1 min-w-0">
-                    <p class="font-semibold text-heading text-sm truncate">{{ $item->judul }}</p>
-                    @if ($item->deskripsi)
-                        <p class="text-xs text-secondary truncate mt-0.5">{{ $item->deskripsi }}</p>
-                    @endif
-                    <span
-                        class="text-xs px-2 py-0.5 rounded-full mt-1 inline-block
-                        {{ $item->aktif ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
-                        {{ $item->aktif ? 'Aktif' : 'Nonaktif' }}
-                    </span>
-                </div>
-
-                {{-- Aksi --}}
-                <div class="flex items-center gap-2 shrink-0">
-                    <a href="{{ route('admin.carousel.edit', $item) }}"
-                        class="text-primary hover:bg-primary/10 p-1.5 rounded-lg transition">
-                        <i class="bx bx-edit text-lg"></i>
-                    </a>
-                    <form method="POST" action="{{ route('admin.carousel.destroy', $item) }}"
-                        onsubmit="return confirm('Hapus slide ini?')">
-                        @csrf @method('DELETE')
-                        <button type="submit" class="text-danger hover:bg-danger/10 p-1.5 rounded-lg transition">
-                            <i class="bx bx-trash text-lg"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        @empty
-            <div class="py-16 text-center text-secondary">
-                <i class="bx bx-image text-5xl block mb-3 opacity-30"></i>
-                <p class="text-sm italic">Belum ada slide carousel.</p>
-            </div>
-        @endforelse
+    <div class="bg-card rounded-xl shadow-card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-primary-light text-primary text-xs uppercase">
+                    <tr>
+                        <th class="px-4 py-3 text-center w-10"></th>
+                        <th class="px-4 py-3 text-left w-28">Gambar</th>
+                        <th class="px-4 py-3 text-left">Slide Info</th>
+                        <th class="px-4 py-3 text-left">Status</th>
+                        <th class="px-4 py-3 text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="sortableRows" class="divide-y divide-gray-100">
+                    @forelse($carousel as $item)
+                        <tr class="hover:bg-gray-50 transition cursor-grab active:cursor-grabbing"
+                            data-id="{{ $item->id }}">
+                            <td class="px-4 py-3 text-center text-gray-300">
+                                <i class="bx bx-grid-vertical text-xl"></i>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="w-24 h-14 rounded-lg overflow-hidden bg-gray-100 border border-gray-100">
+                                    <img src="{{ Storage::url($item->gambar) }}" alt="{{ $item->judul }}"
+                                        class="w-full h-full object-cover" />
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <p class="font-semibold text-heading text-sm">{{ $item->judul }}</p>
+                                @if ($item->deskripsi)
+                                    <p class="text-xs text-secondary truncate mt-0.5">{{ $item->deskripsi }}</p>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3">
+                                <span
+                                    class="text-xs px-2 py-1 rounded-lg font-semibold {{ $item->aktif ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                                    {{ $item->aktif ? 'Aktif' : 'Nonaktif' }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{{ route('admin.carousel.edit', $item) }}"
+                                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-primary-light text-primary rounded-lg hover:bg-primary hover:text-white transition">
+                                        <i class="bx bx-edit-alt"></i> Edit
+                                    </a>
+                                    <form method="POST" action="{{ route('admin.carousel.destroy', $item) }}"
+                                        onsubmit="return confirm('Hapus slide ini?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit"
+                                            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-red-50 text-danger rounded-lg hover:bg-danger hover:text-white transition">
+                                            <i class="bx bx-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-4 py-10 text-center text-secondary italic">
+                                Belum ada slide carousel.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div id="toastSaved"
@@ -78,13 +93,14 @@
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
     <script>
-        const grid = document.getElementById('sortableCarousel');
+        const grid = document.getElementById('sortableRows');
         const toast = document.getElementById('toastSaved');
 
         if (grid) {
             Sortable.create(grid, {
                 animation: 150,
-                ghostClass: 'opacity-40',
+                ghostClass: 'bg-primary/5',
+                handle: '.bx-grid-vertical',
                 onEnd: function() {
                     const ids = [...grid.querySelectorAll('[data-id]')].map(el => el.dataset.id);
                     fetch('{{ route('admin.carousel.reorder') }}', {

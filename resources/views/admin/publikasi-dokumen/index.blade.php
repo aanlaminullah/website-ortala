@@ -12,66 +12,69 @@
 
 @section('content')
     <div class="bg-card rounded-xl shadow-card overflow-hidden">
-        <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-secondary uppercase text-xs">
-                <tr>
-                    <th class="px-4 py-3 text-left">Dokumen</th>
-                    <th class="px-4 py-3 text-left">Kategori</th>
-                    <th class="px-4 py-3 text-left">Tahun</th>
-                    <th class="px-4 py-3 text-left">Tanggal</th>
-                    <th class="px-4 py-3 text-left">Ukuran</th>
-                    <th class="px-4 py-3 text-left">Status</th>
-                    <th class="px-4 py-3 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-                @forelse($dokumen as $item)
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-3">
-                            <div class="flex items-center gap-3">
-                                <i class="bx {{ $item->ikonFile() }} text-2xl {{ $item->warnaIkon() }}"></i>
-                                <div>
-                                    <p class="font-semibold text-heading text-sm">{{ $item->judul }}</p>
-                                    @if ($item->deskripsi)
-                                        <p class="text-xs text-secondary line-clamp-1">{{ $item->deskripsi }}</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-4 py-3 text-secondary text-xs">{{ $item->kategori ?? '-' }}</td>
-                        <td class="px-4 py-3 text-secondary">{{ $item->tahun }}</td>
-                        <td class="px-4 py-3 text-secondary text-xs">{{ $item->tanggal->translatedFormat('d F Y') }}</td>
-                        <td class="px-4 py-3 text-secondary text-xs">{{ $item->ukuranFormat() }}</td>
-                        <td class="px-4 py-3">
-                            <span
-                                class="px-2 py-1 rounded-full text-xs font-semibold {{ $item->aktif ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
-                                {{ $item->aktif ? 'Aktif' : 'Nonaktif' }}
-                            </span>
-                        </td>
-                        <td class="px-4 py-3">
-                            <div class="flex items-center justify-center gap-2">
-                                <a href="{{ route('admin.publikasi-dokumen.edit', $item) }}"
-                                    class="text-primary hover:bg-primary/10 p-1.5 rounded-lg transition">
-                                    <i class="bx bx-edit text-lg"></i>
-                                </a>
-                                <form method="POST" action="{{ route('admin.publikasi-dokumen.destroy', $item) }}"
-                                    onsubmit="return confirm('Hapus dokumen ini?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit"
-                                        class="text-danger hover:bg-danger/10 p-1.5 rounded-lg transition">
-                                        <i class="bx bx-trash text-lg"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-primary-light text-primary text-xs uppercase">
                     <tr>
-                        <td colspan="7" class="px-4 py-10 text-center text-secondary italic">Belum ada dokumen.</td>
+                        <th class="px-4 py-3 text-left">Dokumen</th>
+                        <th class="px-4 py-3 text-left">Kategori</th>
+                        <th class="px-4 py-3 text-left">Tahun</th>
+                        <th class="px-4 py-3 text-left">Tanggal</th>
+                        <th class="px-4 py-3 text-left">Ukuran</th>
+                        <th class="px-4 py-3 text-left">Status</th>
+                        <th class="px-4 py-3 text-center">Aksi</th>
                     </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @forelse($dokumen as $item)
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-3">
+                                    <i class="bx {{ $item->ikonFile() }} text-2xl {{ $item->warnaIkon() }}"></i>
+                                    <div>
+                                        <p class="font-semibold text-heading text-sm">{{ $item->judul }}</p>
+                                        @if ($item->deskripsi)
+                                            <p class="text-xs text-secondary line-clamp-1">{{ $item->deskripsi }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-secondary text-xs">{{ $item->kategori ?? '-' }}</td>
+                            <td class="px-4 py-3 text-secondary">{{ $item->tahun }}</td>
+                            <td class="px-4 py-3 text-secondary text-xs">{{ $item->tanggal->translatedFormat('d F Y') }}
+                            </td>
+                            <td class="px-4 py-3 text-secondary text-xs">{{ $item->ukuranFormat() }}</td>
+                            <td class="px-4 py-3">
+                                <span
+                                    class="px-2 py-1 rounded-lg text-xs font-semibold {{ $item->aktif ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                                    {{ $item->aktif ? 'Aktif' : 'Nonaktif' }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{{ route('admin.publikasi-dokumen.edit', $item) }}"
+                                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-primary-light text-primary rounded-lg hover:bg-primary hover:text-white transition">
+                                        <i class="bx bx-edit-alt"></i> Edit
+                                    </a>
+                                    <form method="POST" action="{{ route('admin.publikasi-dokumen.destroy', $item) }}"
+                                        onsubmit="return confirm('Hapus dokumen ini?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit"
+                                            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-red-50 text-danger rounded-lg hover:bg-danger hover:text-white transition">
+                                            <i class="bx bx-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-4 py-10 text-center text-secondary italic">Belum ada dokumen.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
         @if ($dokumen->hasPages())
             <div class="px-4 py-3 border-t border-gray-100">
                 {{ $dokumen->links() }}
