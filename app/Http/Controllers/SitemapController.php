@@ -57,7 +57,10 @@ class SitemapController extends Controller
         }
 
         return response()
-            ->view('sitemap', compact('urls'))
+            ->view('sitemap', [
+                'urls' => $urls,
+                'xml_header' => '<?xml version="1.0" encoding="UTF-8"?>'
+            ])
             ->header('Content-Type', 'text/xml');
     }
 }
