@@ -11,6 +11,7 @@ use App\Http\Controllers\LensaKegiatanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublikasiDokumenController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\SitemapController;
 
 
 // Route::get('/', function () {
@@ -18,6 +19,7 @@ use App\Http\Controllers\BeritaController;
 // });
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 
 Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index')->middleware('modul:modul_pengumuman');
