@@ -75,7 +75,7 @@
                                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
                                 clip-rule="evenodd" />
                         </svg>
-                        {{ $errors->first('email') }}
+                        {{ $errors->first('username') }}
                     </div>
                 @endif
 
@@ -83,20 +83,20 @@
                     @csrf
                     <div class="space-y-5">
 
-                        {{-- Email --}}
+                        {{-- Username --}}
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
                             <div class="mt-1 relative rounded-md shadow-sm">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
+                                        viewBase="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                     </svg>
                                 </div>
-                                <input type="email" name="email" id="email" value="{{ old('email') }}"
-                                    class="block w-full pl-10 pr-3 py-3 border @error('email') border-red-400 @else border-gray-300 @enderror rounded-xl focus:outline-none focus:ring-2 focus:ring-lib-secondary focus:border-transparent transition sm:text-sm"
-                                    placeholder="contoh@email.com" required autofocus />
+                                <input type="text" name="username" id="username" value="{{ old('username') }}"
+                                    class="block w-full pl-10 pr-3 py-3 border @error('username') border-red-400 @else border-gray-300 @enderror rounded-xl focus:outline-none focus:ring-2 focus:ring-lib-secondary focus:border-transparent transition sm:text-sm"
+                                    placeholder="Username" required autofocus />
                             </div>
                         </div>
 
@@ -145,6 +145,10 @@
                             class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-gradient-to-r from-lib-primary to-lib-secondary hover:from-blue-800 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lib-secondary shadow-lg shadow-blue-500/30 transition transform hover:-translate-y-0.5">
                             Masuk Sekarang
                         </button>
+                        <button type="button" onclick="autoFill()"
+                            class="mt-4 w-full text-xs text-gray-400 hover:text-gray-600 underline transition">
+                            Autofill Admin (Testing Only)
+                        </button>
                     </div>
                 </form>
 
@@ -173,6 +177,11 @@
                 eyeOpen.classList.remove('hidden');
                 eyeOff.classList.add('hidden');
             }
+        }
+
+        function autoFill() {
+            document.getElementById('username').value = 'adminortala';
+            document.getElementById('password').value = 'password123';
         }
     </script>
 </body>

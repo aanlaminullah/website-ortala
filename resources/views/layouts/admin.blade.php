@@ -5,6 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yield('title', 'Admin') - Dinas Perikanan Bolmut</title>
+    @php
+        $favicon = setting('logo', 'img/logo-bolmut.png');
+        $faviconUrl = str_starts_with($favicon, 'img/') ? asset($favicon) : Storage::url($favicon);
+    @endphp
+    <link rel="icon" type="image/png" href="{{ $faviconUrl }}" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
@@ -93,12 +98,12 @@
                 </a>
 
                 @if (setting('hero_mode', 'carousel') === 'carousel')
-                <a href="{{ route('admin.carousel.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                    <a href="{{ route('admin.carousel.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
         {{ request()->routeIs('admin.carousel.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
-                    <i class="bx bx-slideshow text-xl"></i>
-                    <span class="font-medium">Carousel</span>
-                </a>
+                        <i class="bx bx-slideshow text-xl"></i>
+                        <span class="font-medium">Carousel</span>
+                    </a>
                 @endif
 
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Data</p>
@@ -163,17 +168,24 @@
                     <i class="bx bx-buildings text-xl"></i>
                     <span class="font-medium">Instansi Terkait</span>
                 </a>
-
                 @if (Auth::user()->isAdmin())
-                <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Sistem</p>
+                    <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Sistem</p>
 
-                <a href="{{ route('admin.settings.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-        {{ request()->routeIs('admin.settings.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
-                    <i class="bx bx-cog text-xl"></i>
-                    <span class="font-medium">Pengaturan</span>
-                </a>
+                    <a href="{{ route('admin.settings.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+            {{ request()->routeIs('admin.settings.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        <i class="bx bx-cog text-xl"></i>
+                        <span class="font-medium">Pengaturan</span>
+                    </a>
                 @endif
+
+                <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Akun</p>
+                <a href="{{ route('admin.profile.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+        {{ request()->routeIs('admin.profile.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                    <i class="bx bx-user text-xl"></i>
+                    <span class="font-medium">Profil Saya</span>
+                </a>
             </nav>
         </aside>
 
@@ -221,6 +233,16 @@
                                         <p class="text-xs text-secondary truncate">{{ Auth::user()->email }}</p>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="p-2 border-b border-gray-100">
+                                <a href="{{ route('admin.profile.index') }}"
+                                    class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-text hover:bg-primary-light hover:text-primary text-sm transition">
+                                    <i class="bx bx-user text-lg"></i> Profil Saya
+                                </a>
+                                <a href="{{ route('admin.profile.password.edit') }}"
+                                    class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-text hover:bg-primary-light hover:text-primary text-sm transition">
+                                    <i class="bx bx-lock-alt text-lg"></i> Ubah Password
+                                </a>
                             </div>
                             <div class="p-2">
                                 <form method="POST" action="{{ route('logout') }}">

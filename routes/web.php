@@ -22,6 +22,7 @@ Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index')->middleware('modul:modul_pengumuman');
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'show'])->name('announcements.show')->middleware('modul:modul_pengumuman');
+Route::get('/pengumuman/{id}/download', [AnnouncementController::class, 'download'])->name('announcements.download');
 Route::get('/struktur-organisasi', [StrukturOrganisasiController::class, 'index'])->name('struktur-organisasi.index')->middleware('modul:modul_struktur_organisasi');
 Route::get('/visi-misi', [VisiMisiController::class, 'index'])->name('visi-misi.index')->middleware('modul:modul_visi_misi');
 Route::get('/publikasi-data', [PublikasiDataController::class, 'index'])->name('publikasi-data.index')->middleware('modul:modul_publikasi_data');
@@ -88,6 +89,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::post('carousel/reorder', [\App\Http\Controllers\Admin\CarouselController::class, 'reorder'])->name('carousel.reorder');
         Route::resource('carousel', \App\Http\Controllers\Admin\CarouselController::class)->names('carousel');
     });
+
+    // Profile & Password
+    Route::get('profile', [\App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
+    Route::get('profile/password', [\App\Http\Controllers\Admin\ProfileController::class, 'editPassword'])->name('profile.password.edit');
+    Route::put('profile/password', [\App\Http\Controllers\Admin\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 });
 
 // Auth routes

@@ -11,12 +11,13 @@
 
         {{-- Tab Navigation --}}
         <div x-data="{ tab: new URLSearchParams(window.location.search).get('tab') || 'identitas' }" class="space-y-6">
-            <div class="flex gap-2 bg-card rounded-xl shadow-card p-2 w-fit">
+            <div class="flex gap-2 bg-card rounded-xl shadow-card p-2 w-fit flex-wrap">
                 @foreach ([
             'identitas' => 'Identitas',
-            'hero' => 'Halaman Utama',
-            'warna' => 'Warna Tema',
-            'modul' => 'Modul',
+            'hero'      => 'Halaman Utama',
+            'warna'     => 'Warna Tema',
+            'modul'     => 'Modul',
+            'kontak'    => 'Kontak & Footer',
         ] as $key => $label)
                     <button type="button" data-tab="{{ $key }}" @click="tab = '{{ $key }}'"
                         :class="tab === '{{ $key }}' ? 'bg-primary text-white shadow' :
@@ -215,6 +216,82 @@
                         </div>
                     </label>
                 @endforeach
+            </div>
+
+            {{-- Tab Kontak & Footer --}}
+            <div x-show="tab === 'kontak'" class="bg-card rounded-xl shadow-card p-6 space-y-5">
+                <h5 class="font-bold text-heading text-lg border-b border-gray-100 pb-3">Kontak & Informasi Footer</h5>
+                <p class="text-secondary text-sm">Informasi ini akan ditampilkan di bagian footer website publik.</p>
+
+                <div>
+                    <label class="block text-sm font-medium text-heading mb-1">Nama Instansi (Footer)</label>
+                    <input type="text" name="kontak_nama_instansi" value="{{ setting('kontak_nama_instansi') }}"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Bagian Ortala Pemerintah Kab. Bolmut" />
+                    <p class="text-xs text-secondary mt-1">Tampil sebagai judul di kolom Kontak footer</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-heading mb-1">
+                        <i class="bx bx-map text-primary"></i> Alamat
+                    </label>
+                    <textarea name="kontak_alamat" rows="3"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                        placeholder="Jl. Trans Sulawesi, Boroko, Kab. Bolmut">{{ setting('kontak_alamat') }}</textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-heading mb-1">
+                            <i class="bx bx-phone text-primary"></i> Telepon
+                        </label>
+                        <input type="text" name="kontak_telepon" value="{{ setting('kontak_telepon') }}"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="(0434) 123456" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-heading mb-1">
+                            <i class="bx bx-envelope text-primary"></i> Email
+                        </label>
+                        <input type="email" name="kontak_email" value="{{ setting('kontak_email') }}"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="ortala@bolmutkab.go.id" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-heading mb-1">
+                        <i class="bx bx-link text-primary"></i> URL Google Maps (Embed)
+                    </label>
+                    <input type="url" name="kontak_maps_url" value="{{ setting('kontak_maps_url') }}"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="https://maps.google.com/maps?q=...&output=embed" />
+                    <p class="text-xs text-secondary mt-1">Salin link embed dari Google Maps (Share → Embed a map → salin src iframe)</p>
+                    @if (setting('kontak_maps_url'))
+                        <div class="mt-2 rounded-lg overflow-hidden border border-gray-200 h-36">
+                            <iframe src="{{ setting('kontak_maps_url') }}" width="100%" height="100%"
+                                style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    @endif
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-heading mb-1">
+                        <i class="bx bxl-facebook text-primary"></i> Facebook
+                    </label>
+                    <input type="url" name="kontak_facebook" value="{{ setting('kontak_facebook') }}"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="https://facebook.com/..." />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-heading mb-1">
+                        <i class="bx bxl-instagram text-primary"></i> Instagram
+                    </label>
+                    <input type="url" name="kontak_instagram" value="{{ setting('kontak_instagram') }}"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="https://instagram.com/..." />
+                </div>
             </div>
 
             {{-- Tombol Simpan --}}

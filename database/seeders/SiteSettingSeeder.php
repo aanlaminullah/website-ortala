@@ -41,6 +41,15 @@ class SiteSettingSeeder extends Seeder
 
             // Berita
             ['key' => 'berita_alias', 'value' => 'bpkd', 'type' => 'text', 'group' => 'berita'],
+
+            // Kontak & Footer
+            ['key' => 'kontak_nama_instansi', 'value' => 'Bagian Organisasi dan Tata Laksana',           'type' => 'text', 'group' => 'kontak'],
+            ['key' => 'kontak_alamat',        'value' => 'Jl. Trans Sulawesi, Boroko, Kab. Bolmut',      'type' => 'text', 'group' => 'kontak'],
+            ['key' => 'kontak_telepon',       'value' => '(0434) 123456',                                'type' => 'text', 'group' => 'kontak'],
+            ['key' => 'kontak_email',         'value' => 'ortala@bolmutkab.go.id',                       'type' => 'text', 'group' => 'kontak'],
+            ['key' => 'kontak_maps_url',      'value' => null,                                           'type' => 'text', 'group' => 'kontak'],
+            ['key' => 'kontak_facebook',      'value' => null,                                           'type' => 'text', 'group' => 'kontak'],
+            ['key' => 'kontak_instagram',     'value' => null,                                           'type' => 'text', 'group' => 'kontak'],
         ];
 
         foreach ($settings as $setting) {

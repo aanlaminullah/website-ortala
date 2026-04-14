@@ -137,4 +137,18 @@ class AnnouncementController extends Controller
             ->route('admin.announcements.index')
             ->with('success', 'Pengumuman berhasil dihapus.');
     }
+
+    public function download($id)
+    {
+        $announcement = Announcement::findOrFail($id);
+
+        if (!$announcement->attachment || !Storage::disk('public')->exists($announcement->attachment)) {
+            abort(404, 'Lampiran tidak ditemukan.');
+        }
+
+        $extension = pathinfo($announcement->attachment, PATHINFO_EXTENSION);
+        $filename = \Illuminate\Support\Str::slug($announcement->title) . '.' . $extension;
+
+        return Storage::disk('public')->download($announcement->attachment, $filename);
+    }
 }

@@ -12,23 +12,25 @@ class AdminUserSeeder extends Seeder
     {
         // Admin — akses penuh termasuk Pengaturan
         User::updateOrCreate(
-            ['email' => 'admin@ortala.go.id'],
+            ['email' => 'admin@kominfo.go.id'],
             [
-                'name'     => 'Administrator',
+                'name'     => 'Admin Kominfo',
+                'username' => 'adminkominfo',
                 'role'     => 'admin',
-                'email'    => 'admin@ortala.go.id',
-                'password' => Hash::make('password123'),
+                'email'    => 'admin@kominfo.go.id',
+                'password' => Hash::make('K0m!nfo123'),
             ]
         );
 
         // Operator — akses semua kecuali Pengaturan & Carousel (jika mode hero)
         User::updateOrCreate(
-            ['email' => 'operator@ortala.go.id'],
+            ['email' => 'admin@ortala.go.id'],
             [
-                'name'     => 'Operator',
+                'name'     => 'Admin Ortala',
+                'username' => 'adminortala',
                 'role'     => 'operator',
-                'email'    => 'operator@ortala.go.id',
-                'password' => Hash::make('operator123'),
+                'email'    => 'admin@ortala.go.id',
+                'password' => Hash::make('password123'),
             ]
         );
     }

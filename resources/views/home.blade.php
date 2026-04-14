@@ -313,23 +313,26 @@
                     </div>
                     <div class="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
                         @forelse($latestAnnouncements as $announcement)
-                            <a href="{{ route('announcements.show', $announcement->id) }}"
-                                class="block p-4 hover:bg-gray-50 transition border-l-4 {{ $loop->first ? 'border-fish-accent' : 'border-transparent hover:border-fish-accent' }}">
-                                <span
-                                    class="text-xs font-semibold {{ $loop->first ? 'text-fish-blue' : 'text-gray-500' }} mb-1 block">
-                                    {{ \Carbon\Carbon::parse($announcement->date)->translatedFormat('d F Y') }}
-                                </span>
-                                <h5
-                                    class="text-sm font-bold text-gray-800 leading-snug mb-2 hover:text-fish-blue transition">
-                                    {{ $announcement->title }}
-                                </h5>
+                            <div
+                                class="relative p-4 hover:bg-gray-50 transition border-l-4 {{ $loop->first ? 'border-fish-accent' : 'border-transparent hover:border-fish-accent' }}">
+                                <a href="{{ route('announcements.show', $announcement->id) }}" class="absolute inset-0 z-0"></a>
+                                <div class="relative z-10 pointer-events-none">
+                                    <span
+                                        class="text-xs font-semibold {{ $loop->first ? 'text-fish-blue' : 'text-gray-500' }} mb-1 block">
+                                        {{ \Carbon\Carbon::parse($announcement->date)->translatedFormat('d F Y') }}
+                                    </span>
+                                    <h5 class="text-sm font-bold text-gray-800 leading-snug mb-2 transition">
+                                        {{ $announcement->title }}
+                                    </h5>
+                                </div>
 
                                 @if ($announcement->attachment)
-                                    <span class="text-xs text-gray-500 flex items-center hover:text-fish-blue">
+                                    <a href="{{ route('announcements.download', $announcement->id) }}"
+                                        class="relative z-10 text-xs text-gray-500 flex items-center hover:text-fish-blue w-fit">
                                         Download Lampiran →
-                                    </span>
+                                    </a>
                                 @endif
-                            </a>
+                            </div>
                         @empty
                             <div class="p-8 text-center text-gray-500">
                                 <p class="text-sm italic">Belum ada pengumuman terbaru.</p>

@@ -67,7 +67,7 @@
                     @if ($announcement->attachment)
                         <div class="mt-8 pt-6 border-t border-gray-100">
                             <p class="text-sm font-medium text-gray-500 mb-3">Lampiran Terkait</p>
-                            <a href="{{ Storage::url($announcement->attachment) }}" target="_blank" download
+                            <a href="{{ route('announcements.download', $announcement->id) }}"
                                 class="inline-flex items-center gap-2 bg-fish-blue text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-sky-700 transition shadow-md shadow-blue-200">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
