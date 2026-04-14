@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('title', $item['judul_berita'] . ' - ' . setting('nama_dinas', 'Dinas Perikanan'))
+@section('meta_description', Str::limit(strip_tags($item['isi_berita']), 150))
+@if (!empty($item['tags']))
+    @section('meta_keywords', str_replace('|', ', ', $item['tags']))
+@endif
+@section('og_type', 'article')
+@if (!empty($item['gambar']))
+    @section('meta_image', 'https://ppid.bolmutkab.go.id/img/' . $item['gambar'])
+@endif
 
 @section('content')
     <div class="bg-gray-50 min-h-screen py-12">

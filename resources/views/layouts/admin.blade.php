@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yield('title', 'Admin') - Dinas Perikanan Bolmut</title>
+    <meta name="robots" content="noindex, nofollow" />
     @php
         $favicon = setting('logo', 'img/logo-bolmut.png');
         $faviconUrl = str_starts_with($favicon, 'img/') ? asset($favicon) : Storage::url($favicon);

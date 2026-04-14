@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('title', $announcement->title . ' - Dinas Perikanan Bolmut')
+@section('meta_description', Str::limit(strip_tags($announcement->description), 150))
+@section('og_type', 'article')
+@if ($announcement->image)
+    @section('meta_image', Storage::url($announcement->image))
+@endif
 
 @section('content')
     <div class="bg-gray-50 min-h-screen py-12">
