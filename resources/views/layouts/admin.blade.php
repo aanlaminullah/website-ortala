@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title', 'Admin') - Dinas Perikanan Bolmut</title>
+    <title>@yield('title', 'Admin') - {{ setting('nama_dinas', 'Bagian Ortala Bolmut') }}</title>
     <meta name="robots" content="noindex, nofollow" />
     @php
         $favicon = setting('logo', 'img/logo-bolmut.png');

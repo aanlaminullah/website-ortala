@@ -4,22 +4,25 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title', 'Dinas Perikanan Bolmut')</title>
+    <title>@yield('title', setting('nama_dinas', 'Bagian Ortala Bolmut'))</title>
     @php
         $favicon = setting('logo', 'img/logo-bolmut.png');
         $faviconUrl = str_starts_with($favicon, 'img/') ? asset($favicon) : Storage::url($favicon);
-        
-        $metaDescription = setting('hero_subjudul', 'Sistem Informasi Dinas Perikanan Kabupaten Bolaang Mongondow Utara.');
+
+        $metaDescription = setting(
+            'hero_subjudul',
+            'Sistem Informasi Dinas Perikanan Kabupaten Bolaang Mongondow Utara.',
+        );
         if (!empty(trim(setting('meta_description')))) {
             $metaDescription = setting('meta_description');
         }
     @endphp
-    
+
     <!-- Primary Meta Tags -->
-    <meta name="title" content="@yield('title', 'Dinas Perikanan Bolmut')" />
+    <meta name="title" content="@yield('title', setting('nama_dinas', 'Bagian Ortala Bolmut'))" />
     <meta name="description" content="@yield('meta_description', $metaDescription)" />
-    <meta name="keywords" content="@yield('meta_keywords', 'dinas perikanan, bolmut, bolaang mongondow utara, perikanan, kelautan, ppid, pemerintah')" />
-    <meta name="author" content="{{ setting('nama_dinas', 'Dinas Perikanan Bolmut') }}" />
+    <meta name="keywords" content="@yield('meta_keywords', 'ortala, organisasi tata laksana, bolmut, boltara, bolaang mongondow utara, pemerintah')" />
+    <meta name="author" content="{{ setting('nama_dinas', 'Bagian Ortala Bolmut') }}" />
     <meta name="robots" content="index, follow" />
     <meta name="google-site-verification" content="NMF1euNUJ-ed-CDoME7tvllftt3lF-sSV8OnA-amZkI" />
     <link rel="canonical" href="{{ url()->current() }}" />
@@ -27,14 +30,14 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="@yield('og_type', 'website')" />
     <meta property="og:url" content="{{ url()->current() }}" />
-    <meta property="og:title" content="@yield('title', 'Dinas Perikanan Bolmut')" />
+    <meta property="og:title" content="@yield('title', setting('nama_dinas', 'Bagian Ortala Bolmut'))" />
     <meta property="og:description" content="@yield('meta_description', $metaDescription)" />
     <meta property="og:image" content="@yield('meta_image', setting('hero_gambar') ? Storage::url(setting('hero_gambar')) : $faviconUrl)" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="{{ url()->current() }}" />
-    <meta property="twitter:title" content="@yield('title', 'Dinas Perikanan Bolmut')" />
+    <meta property="twitter:title" content="@yield('title', setting('nama_dinas', 'Bagian Ortala Bolmut'))" />
     <meta property="twitter:description" content="@yield('meta_description', $metaDescription)" />
     <meta property="twitter:image" content="@yield('meta_image', setting('hero_gambar') ? Storage::url(setting('hero_gambar')) : $faviconUrl)" />
 
