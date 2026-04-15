@@ -9,6 +9,11 @@ return Application::configure(basePath: dirname(__DIR__))
         web: __DIR__ . '/../routes/web.php',
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
+        then: function () {
+            Route::middleware('api')
+                ->get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])
+                ->name('sitemap');
+        },
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([

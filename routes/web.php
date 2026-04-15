@@ -18,7 +18,6 @@ use App\Http\Controllers\SitemapController;
 //     return view('home');
 // });
 
-Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 
