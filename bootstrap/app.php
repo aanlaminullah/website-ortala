@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'role'           => \App\Http\Middleware\CheckRole::class,
             'hero_carousel'  => \App\Http\Middleware\CheckHeroCarousel::class,
         ]);
+
+        $middleware->validateCsrfTokens(except: [
+            '/sitemap.xml',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

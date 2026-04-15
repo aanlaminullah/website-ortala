@@ -18,8 +18,9 @@ use App\Http\Controllers\SitemapController;
 //     return view('home');
 // });
 
-Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 
 Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index')->middleware('modul:modul_pengumuman');
