@@ -142,23 +142,21 @@
                     </a>
                 @endif
 
-                <div class="flex items-center gap-3 ml-4">
+                {{-- <div class="flex items-center gap-3 ml-4">
                     <a href="{{ route('login') }}"
                         class="bg-fish-blue text-white px-5 py-2 rounded-lg hover:bg-sky-700 transition shadow-md shadow-blue-200 font-medium">
                         Login Admin
                     </a>
-                </div>
+                </div> --}}
             </div>
 
             {{-- Tombol Hamburger Mobile --}}
             <button id="hamburgerBtn"
                 class="lg:hidden p-2 rounded-lg text-gray-600 hover:text-fish-blue hover:bg-gray-100 transition focus:outline-none">
                 <svg id="iconHamburger" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4 6h16M4 12h16M4 18h16" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-                <svg id="iconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
+                <svg id="iconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
